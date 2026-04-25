@@ -1,0 +1,48 @@
+---
+const problems = [
+  {
+    title: "Compliance a Ciegas",
+    description: "No enterarte a tiempo del incumplimiento del 20% de energía renovable puede costarte multas superiores a USD 60.000 anuales.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`
+  },
+  {
+    title: "Contratos Subóptimos",
+    description: "¿Tu contrato MATER quedó obsoleto? Miles de empresas pagan hasta un 15% de sobrecosto por falta de un benchmark real del mercado.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-forest"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>`
+  },
+  {
+    title: "Presupuestos Rotos",
+    description: "La volatilidad estacional del MEM (de USD 63 a USD 97/MWh) destruye las previsiones financieras de cualquier CFO.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`
+  },
+  {
+    title: "Migración Compleja",
+    description: "La barrera para que un GUDI pase al mercado mayorista no es el dinero, es el laberinto administrativo y regulatorio.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`
+  }
+];
+---
+<section class="py-24" id="problemas">
+  <div class="container mx-auto px-6">
+    <div class="max-w-3xl mb-16">
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">
+        Cuatro problemas costosos, <span class="text-forest">una sola plataforma</span>.
+      </h2>
+      <p class="text-mist text-lg">
+        Dejá de gestionar miles de filas de Excel. El mercado eléctrico cambió en 2025. Tus herramientas también deben hacerlo.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {problems.map((problem) => (
+        <div class="bg-[var(--surface)] border border-[var(--border)] p-8 rounded-3xl hover:bg-forest/5 transition-all hover:border-forest/20 group">
+          <div class="w-12 h-12 rounded-xl bg-forest/5 flex items-center justify-center mb-6 border border-forest/10 group-hover:scale-110 transition-transform">
+            <Fragment set:html={problem.icon} />
+          </div>
+          <h3 class="text-xl font-bold mb-3">{problem.title}</h3>
+          <p class="text-mist leading-relaxed italic">{problem.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

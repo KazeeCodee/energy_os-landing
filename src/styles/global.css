@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  --color-forest: #168056;
+  --color-forest-light: #1da36f;
+  --color-forest-dark: #0f6542;
+  --color-slate-950: #0f172a;
+  --color-slate-900: #101828;
+  --color-slate-50: #f8fafc;
+  --color-mist: #94A3B8;
+  --color-danger: #EF4444;
+  --color-alert: #F59E0B;
+}
+
+@layer base {
+  :root {
+    --background: #FFFFFF;
+    --surface: #F8FAFC;
+    --surface-hover: #F1F5F9;
+    --border: #E2E8F0;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --navbar-bg: rgba(255, 255, 255, 0.8);
+    --backdrop-surface: rgba(255, 255, 255, 0.7);
+    --footer-bg: #F0F9F6;
+  }
+
+  .dark {
+    --background: #0B0F1A;
+    --surface: #151B28;
+    --surface-hover: #1E2535;
+    --border: rgba(255, 255, 255, 0.06);
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --navbar-bg: rgba(11, 15, 26, 0.8);
+    --backdrop-surface: rgba(11, 15, 26, 0.7);
+    --footer-bg: #070A11;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--text-main);
+  }
+}
+
+@layer utilities {
+  .text-mist {
+    color: var(--text-muted);
+  }
+  
+  .bg-forest {
+    background-color: var(--color-forest);
+  }
+  
+  .glass {
+    background: var(--navbar-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}

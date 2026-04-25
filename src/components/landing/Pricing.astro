@@ -1,0 +1,120 @@
+---
+const tiers = [
+  {
+    name: "Plan Compliance",
+    price: "149",
+    description: "Enfocado en mitigar el riesgo de incumplimiento de la Ley 27.191.",
+    features: [
+      "Módulo 1: Monitorización Automática",
+      "Alertas de multas proyectadas",
+      "Reporting mensual para CFO",
+      "Actualización Res. 400"
+    ],
+    cta: "Empezar ahora",
+    highlight: false
+  },
+  {
+    name: "Plan Gestión",
+    price: "399",
+    description: "Añade benchmark de contratos y proyección estacional. El dulce ahorro.",
+    features: [
+      "Todo en Compliance",
+      "Módulo 2: Benchmark MATER",
+      "Módulo 3: Proyección MEM",
+      "Simulador de costos futuros",
+      "Soporte prioritario"
+    ],
+    cta: "Más Popular",
+    highlight: true,
+    badge: "Mejor ROI"
+  },
+  {
+    name: "Plan Full",
+    price: "699",
+    description: "Para grandes usuarios y GUDIs que necesitan evaluar el paso al MEM.",
+    features: [
+      "Todo en Gestión",
+      "Módulo 4: Calculadora de Migración",
+      "Dashboard multi-planta",
+      "Exportación de datos RAW",
+      "Account Manager dedicado"
+    ],
+    cta: "Contactar Ventas",
+    highlight: false
+  }
+];
+---
+<section class="py-24" id="pricing">
+  <div class="container mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">Precios transparentes según tu <span class="text-forest">ahorro</span></h2>
+      <p class="text-mist text-lg">Inversión calculada sobre la evitación de pérdidas reales. El ROI es directo desde el primer mes.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {tiers.map((tier) => (
+        <div class={`relative flex flex-col p-8 rounded-3xl border transition-all duration-300 ${
+          tier.highlight 
+            ? 'bg-forest dark:bg-forest text-white border-forest scale-105 shadow-2xl shadow-forest/20 z-10' 
+            : 'bg-[var(--surface)] border-[var(--border)] hover:border-forest/50'
+        }`}>
+          {tier.highlight && (
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white dark:bg-white text-forest dark:text-forest px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg border border-forest/10">
+              {tier.badge}
+            </div>
+          )}
+          
+          <div class="mb-8">
+            <h3 class="text-xl font-bold mb-2">{tier.name}</h3>
+            <p class={`text-sm ${tier.highlight ? 'text-white/80' : 'text-mist'}`}>{tier.description}</p>
+          </div>
+
+          <div class="mb-8">
+            <div class="flex items-end gap-1">
+              <span class={`text-sm font-medium mb-2 ${tier.highlight ? 'text-white/70' : 'text-mist'}`}>USD</span>
+              <span class="text-5xl font-bold">{tier.price}</span>
+              <span class={`mb-2 ${tier.highlight ? 'text-white/70' : 'text-mist'}`}>/mes</span>
+            </div>
+            <div class={`text-[10px] mt-1 ${tier.highlight ? 'text-white/50' : 'text-mist/60'}`}>* Facturado anualmente</div>
+          </div>
+
+          <ul class="flex-1 space-y-4 mb-8">
+            {tier.features.map(feature => (
+              <li class="flex items-start gap-3 text-sm">
+                <svg class={`${tier.highlight ? 'text-white' : 'text-forest'} mt-0.5 shrink-0`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class={tier.highlight ? 'text-white/90' : 'text-mist'}>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a 
+            href={tier.highlight ? "#demo" : "#"} 
+            class={`w-full py-4 rounded-xl font-bold text-center transition-all ${
+              tier.highlight 
+                ? 'bg-white dark:bg-white text-forest dark:text-forest hover:shadow-xl' 
+                : 'bg-[var(--border)] hover:bg-forest/10 hover:text-forest'
+            }`}
+          >
+            {tier.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- White-Label Block -->
+    <div class="mt-16 max-w-6xl mx-auto">
+      <div class="bg-gradient-to-r from-[var(--surface)] to-[var(--background)] border border-[var(--border)] p-8 md:p-12 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
+        <div>
+          <div class="inline-flex items-center px-3 py-1 rounded-full bg-forest/10 text-forest text-[10px] font-bold uppercase mb-4 tracking-wider">Partner Program</div>
+          <h3 class="text-3xl font-bold mb-3">¿Sos Comercializador MATER?</h3>
+          <p class="text-mist max-w-xl text-lg">Obtené tu propio portal White-Label automatizado para gestionar tus Grandes Usuarios con marca propia. Aumentá la retención de tus clientes con datos reales de CAMMESA.</p>
+        </div>
+        <div class="text-center md:text-right shrink-0">
+          <div class="text-4xl font-bold mb-1 tracking-tight">Desde USD 899<span class="text-sm font-normal text-mist"> /mes</span></div>
+          <p class="text-xs text-mist mb-8 uppercase tracking-widest">+ Tarifa por cliente activo</p>
+          <a href="#demo" class="inline-block px-10 py-4 bg-forest text-white rounded-2xl font-bold hover:bg-forest-dark transition-all shadow-xl shadow-forest/20 hover:scale-105 active:scale-95">Solicitar Demo White-Label</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

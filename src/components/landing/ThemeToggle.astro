@@ -1,0 +1,92 @@
+---
+---
+<button
+  id="theme-toggle"
+  class="relative p-2 w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--surface)] border border-[var(--border)] hover:bg-forest/10 transition-all group overflow-hidden"
+  aria-label="Cambiar tema de la página"
+>
+  <!-- Main Icon Container -->
+  <div class="relative w-5 h-5 flex items-center justify-center">
+    <!-- Sun Icon (Visible when .dark class is on html) -->
+    <svg
+      id="sun-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="text-amber-500 transition-all duration-500 absolute scale-0 rotate-90 sun-icon-inner"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M20 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+
+    <!-- Moon Icon (Visible by default) -->
+    <svg
+      id="moon-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="text-forest transition-all duration-500 absolute scale-100 rotate-0 moon-icon-inner"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+  </div>
+</button>
+
+<style>
+  /* Custom logic to handle icon visibility based on .dark class */
+  :global(html.dark) .sun-icon-inner {
+    scale: 1 !important;
+    rotate: 0deg !important;
+  }
+  
+  :global(html.dark) .moon-icon-inner {
+    scale: 0 !important;
+    rotate: -90deg !important;
+  }
+</style>
+
+<script>
+  function setupThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    
+    // Función para actualizar el tema
+    const handleToggle = () => {
+      const element = document.documentElement;
+      const isDark = element.classList.contains('dark');
+      
+      if (isDark) {
+        element.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        element.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    };
+
+    toggle?.removeEventListener('click', handleToggle); // Evitar duplicados
+    toggle?.addEventListener('click', handleToggle);
+  }
+
+  // Ejecutar en carga inicial y persistir en navegaciones de Astro
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

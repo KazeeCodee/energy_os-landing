@@ -1,0 +1,193 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+const navLinks = [
+  { name: "Problemas", href: "#problemas" },
+  { name: "Cómo funciona", href: "#como-funciona" },
+  { name: "Precios", href: "#pricing" },
+  { name: "FAQ", href: "#faq" },
+];
+---
+
+<!-- Main Navbar -->
+<nav
+  id="main-navbar"
+  aria-label="Navegación principal"
+  class="fixed top-0 left-0 w-full z-50 py-3 transition-[background-color,border-color,box-shadow] duration-300 border-b border-transparent"
+>
+  <div class="container mx-auto px-6">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 group relative z-[60]">
+        <div class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg shadow-forest/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="text-xl font-bold tracking-tight text-[var(--text-main)]">Energy<span class="text-forest">OS</span></span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-2 bg-[var(--surface)] border border-[var(--border)] px-2 py-2 rounded-full backdrop-blur-md">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="px-4 py-1.5 text-sm font-medium text-mist hover:text-[var(--text-main)] transition-all rounded-full hover:bg-forest/10"
+            >
+              {link.name}
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Right Side: CTA & Mobile Toggle -->
+      <div class="flex items-center gap-4 relative z-[60]">
+        <ThemeToggle />
+        <a 
+          href="#demo" 
+          class="hidden sm:flex px-6 py-2.5 bg-forest hover:bg-forest-dark text-white rounded-full text-sm font-bold transition-all shadow-lg shadow-forest/20"
+        >
+          Agendar Demo
+        </a>
+        
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden p-2 text-[var(--text-main)] hover:text-forest transition-colors focus:outline-none"
+          aria-label="Abrir menú"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            id="menu-icon"
+          >
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div
+  id="mobile-menu-overlay"
+  class="fixed inset-0 bg-[var(--background)]/98 backdrop-blur-2xl z-[70] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col pt-6 px-8"
+>
+  <!-- Mobile Menu Header -->
+  <div class="flex items-center justify-between mb-12">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-forest flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <span class="text-lg font-bold tracking-tight text-[var(--text-main)]">Energy<span class="text-forest">OS</span></span>
+    </div>
+    <button
+        id="mobile-menu-close"
+        class="p-2 text-[var(--text-main)] hover:text-forest transition-colors"
+        aria-label="Cerrar menú"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+  </div>
+
+  <!-- Links -->
+  <div class="flex flex-col space-y-6">
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-2xl font-bold text-[var(--text-main)] hover:text-forest transition-colors mobile-link flex items-center justify-between group"
+        >
+          {link.name}
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-forest opacity-50"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="mt-auto pb-12">
+    <a 
+      href="#demo" 
+      class="w-full py-5 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold text-center block shadow-xl shadow-forest/20 mobile-link"
+    >
+      Agendar una Demo Gratis
+    </a>
+    <p class="text-center text-mist text-xs mt-6">Gestión Energética Inteligente para el MEM</p>
+  </div>
+</div>
+
+<script>
+  function setupNavbar() {
+    const navbar = document.getElementById("main-navbar");
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
+
+    let isMenuOpen = false;
+
+    function setMenuState(open: boolean) {
+      isMenuOpen = open;
+      
+      if (isMenuOpen) {
+        mobileMenuOverlay?.classList.remove("translate-x-full");
+        document.body.style.overflow = "hidden";
+      } else {
+        mobileMenuOverlay?.classList.add("translate-x-full");
+        document.body.style.overflow = "auto";
+      }
+    }
+
+    function updateNavbarStyles() {
+      const currentScrollY = window.scrollY;
+      const navbarElem = document.getElementById("main-navbar");
+      if (currentScrollY > 20) {
+        navbarElem?.classList.add("bg-[var(--backdrop-surface)]", "backdrop-blur-xl", "border-[var(--border)]", "shadow-lg");
+        navbarElem?.classList.remove("border-transparent");
+      } else {
+        navbarElem?.classList.remove("bg-[var(--backdrop-surface)]", "backdrop-blur-xl", "border-[var(--border)]", "shadow-lg");
+        navbarElem?.classList.add("border-transparent");
+      }
+    }
+
+    window.addEventListener("scroll", updateNavbarStyles, { passive: true });
+    mobileMenuBtn?.addEventListener("click", () => setMenuState(true));
+    mobileMenuClose?.addEventListener("click", () => setMenuState(false));
+    
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", () => setMenuState(false));
+    });
+
+    updateNavbarStyles();
+  }
+
+  setupNavbar();
+  document.addEventListener('astro:page-load', setupNavbar);
+</script>
+
+<style>
+  #main-navbar {
+    will-change: transform, padding, background-color, border-color, backdrop-filter;
+  }
+</style>
