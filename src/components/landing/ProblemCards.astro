@@ -24,7 +24,7 @@ const problems = [
 ---
 <section class="py-24" id="problemas">
   <div class="container mx-auto px-6">
-    <div class="max-w-3xl mb-16">
+    <div class="max-w-3xl mb-16 reveal">
       <h2 class="text-3xl md:text-5xl font-bold mb-6">
         Cuatro problemas costosos, <span class="text-forest">una sola plataforma</span>.
       </h2>
@@ -33,7 +33,7 @@ const problems = [
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 stagger-container">
       {problems.map((problem) => (
         <div class="bg-[var(--surface)] border border-[var(--border)] p-8 rounded-3xl hover:bg-forest/5 transition-all hover:border-forest/20 group">
           <div class="w-12 h-12 rounded-xl bg-forest/5 flex items-center justify-center mb-6 border border-forest/10 group-hover:scale-110 transition-transform">

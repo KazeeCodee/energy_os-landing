@@ -46,12 +46,12 @@ const tiers = [
 ---
 <section class="py-24" id="pricing">
   <div class="container mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16">
+    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
       <h2 class="text-3xl md:text-5xl font-bold mb-6">Precios transparentes según tu <span class="text-forest">ahorro</span></h2>
       <p class="text-mist text-lg">Inversión calculada sobre la evitación de pérdidas reales. El ROI es directo desde el primer mes.</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto stagger-container">
       {tiers.map((tier) => (
         <div class={`relative flex flex-col p-8 rounded-3xl border transition-all duration-300 ${
           tier.highlight 

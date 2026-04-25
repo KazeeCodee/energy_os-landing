@@ -15,7 +15,7 @@ const { title, description = "EnergyOS - Gestión Energética Inteligente para e
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,6 +45,31 @@ const { title, description = "EnergyOS - Gestión Energética Inteligente para e
 	</head>
 	<body class="selection:bg-forest selection:text-white">
 		<slot />
+    
+    <script>
+      function initReveal() {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .stagger-container');
+        revealElements.forEach(el => observer.observe(el));
+      }
+
+      // Init on load and after swaps
+      initReveal();
+      document.addEventListener('astro:page-load', initReveal);
+    </script>
 	</body>
 </html>
 
