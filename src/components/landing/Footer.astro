@@ -140,89 +140,88 @@ import kazecode from "../../assets/kazecode_minimal.svg";
 <script>
   import { supabase } from "../../db/supabase.js";
 
-  const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
-  const input = document.getElementById("newsletter-email") as HTMLInputElement | null;
-  const submitBtn = document.getElementById("newsletter-submit") as HTMLButtonElement | null;
-  const icon = document.getElementById("newsletter-icon");
-  const spinner = document.getElementById("newsletter-spinner");
-  const feedback = document.getElementById("newsletter-feedback");
+  function initNewsletter() {
+    const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
+    const input = document.getElementById("newsletter-email") as HTMLInputElement | null;
+    const submitBtn = document.getElementById("newsletter-submit") as HTMLButtonElement | null;
+    const icon = document.getElementById("newsletter-icon");
+    const spinner = document.getElementById("newsletter-spinner");
+    const feedback = document.getElementById("newsletter-feedback");
 
-  function showFeedback(type: "success" | "error" | "info", msg: string) {
-    if (!feedback) return;
-    feedback.textContent = msg;
-    feedback.classList.remove("hidden");
-    const colorClass =
-      type === "success"
-        ? "text-forest"
-        : type === "info"
-          ? "text-mist"
-          : "text-red-500";
-    feedback.className = `mt-3 text-xs font-medium ${colorClass}`;
-  }
+    if (!form) return;
 
-  function setLoading(loading: boolean) {
-    if (!submitBtn || !icon || !spinner) return;
-    submitBtn.disabled = loading;
-    icon?.classList.toggle("hidden", loading);
-    spinner?.classList.toggle("hidden", !loading);
-  }
-
-  input?.addEventListener("input", () => {
-    feedback?.classList.add("hidden");
-  });
-
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    feedback?.classList.add("hidden");
-    if (!input) return;
-
-    const email = input.value.trim();
-    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      showFeedback("error", "Ingrese un email válido.");
-      return;
+    function setLoading(loading: boolean) {
+      if (!submitBtn || !icon || !spinner) return;
+      submitBtn.disabled = loading;
+      icon.classList.toggle("hidden", loading);
+      spinner.classList.toggle("hidden", !loading);
     }
 
-    setLoading(true);
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .insert({ email, source: "footer" });
-    setLoading(false);
+    input?.addEventListener("input", () => {
+      feedback?.classList.add("hidden");
+    });
 
-    if (error) {
-      if (error.code === "23505") {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (feedback) feedback.classList.add("hidden");
+      
+      if (!input) return;
+
+      const email = input.value.trim();
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        if (feedback) {
+          feedback.textContent = "Ingrese un email válido.";
+          feedback.classList.remove("hidden");
+          feedback.className = "mt-3 text-xs font-medium text-red-500";
+        }
+        return;
+      }
+
+      setLoading(true);
+      const { error } = await supabase
+        .from("newsletter_subscribers")
+        .insert({ email, source: "footer" });
+      setLoading(false);
+
+      if (error) {
+        if (error.code === "23505") {
+          window.dispatchEvent(
+            new CustomEvent("show-feedback-modal", {
+              detail: {
+                type: "info",
+                title: "Ya estás suscrito",
+                message: "Este email ya figura en nuestra base de datos. ¡Gracias por tu interés!",
+              },
+            }) as any
+          );
+          return;
+        }
+        console.error("Newsletter insert error:", error);
         window.dispatchEvent(
           new CustomEvent("show-feedback-modal", {
             detail: {
-              type: "info",
-              title: "Ya estás suscrito",
-              message: "Este email ya figura en nuestra base de datos. ¡Gracias por tu interés!",
+              type: "error",
+              title: "Error de suscripción",
+              message: "No pudimos procesar tu suscripción en este momento. Por favor, intenta más tarde.",
             },
           }) as any
         );
         return;
       }
-      console.error("Newsletter insert error:", error);
+
       window.dispatchEvent(
         new CustomEvent("show-feedback-modal", {
           detail: {
-            type: "error",
-            title: "Error de suscripción",
-            message: "No pudimos procesar tu suscripción en este momento. Por favor, intenta más tarde.",
+            type: "success",
+            title: "¡Suscripción confirmada!",
+            message: "Gracias por unirte a nuestro newsletter. Pronto recibirás nuestras novedades.",
           },
         }) as any
       );
-      return;
-    }
+      form.reset();
+    });
+  }
 
-    window.dispatchEvent(
-      new CustomEvent("show-feedback-modal", {
-        detail: {
-          type: "success",
-          title: "¡Suscripción confirmada!",
-          message: "Gracias por unirte a nuestro newsletter. Pronto recibirás nuestras novedades.",
-        },
-      }) as any
-    );
-    form?.reset();
-  });
+  initNewsletter();
+  document.addEventListener('astro:page-load', initNewsletter);
 </script>
