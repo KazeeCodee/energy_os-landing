@@ -1,0 +1,579 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CustomSelect from "../components/ui/CustomSelect.astro";
+import { Image } from "astro:assets";
+import logoFull from "../assets/logo.png";
+
+const TIPO_EMPRESA_OPTIONS = [
+  { value: "gran_usuario", label: "Gran Usuario en MEM (>300 kW)" },
+  { value: "gudi", label: "GUDI (compra a distribuidora)" },
+  { value: "comercializador", label: "Comercializador MATER" },
+  { value: "otro", label: "Otro" },
+];
+
+const INDUSTRIA_OPTIONS = [
+  { value: "manufactura", label: "Manufactura" },
+  { value: "retail", label: "Retail / Comercio" },
+  { value: "agroindustria", label: "Agroindustria" },
+  { value: "mineria_oyg", label: "Minería / Oil & Gas" },
+  { value: "hotelero", label: "Hotelero / Turismo" },
+  { value: "tecnologia", label: "Tecnología / Data centers" },
+  { value: "otro", label: "Otro" },
+];
+
+const ROL_OPTIONS = [
+  { value: "cfo", label: "CFO / Finanzas" },
+  { value: "operaciones", label: "Operaciones" },
+  { value: "legal", label: "Legal / Regulatorio" },
+  { value: "compras", label: "Compras / Energía" },
+  { value: "directivo", label: "Dirección / Gerencia general" },
+  { value: "otro", label: "Otro" },
+];
+
+---
+
+<Layout title="Empezar prueba gratis · EnergyOS" description="Activá tu cuenta gratis por 30 días en EnergyOS. Inteligencia energética para el MEM argentino.">
+  <main class="min-h-screen py-12 px-6 relative overflow-hidden">
+    <div class="absolute top-0 right-0 -z-10 w-[600px] h-[600px] bg-forest/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 opacity-40"></div>
+    <div class="absolute bottom-0 left-0 -z-10 w-[500px] h-[500px] bg-navy/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4 opacity-30"></div>
+
+    <div class="container mx-auto max-w-3xl">
+      <a href="/" class="inline-flex items-center gap-2 text-mist hover:text-forest transition-colors mb-8 text-sm font-medium">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Volver al inicio
+      </a>
+
+      <div class="flex items-center mb-10">
+        <Image src={logoFull} alt="EnergyOS" class="logo-light h-12 w-auto object-contain" />
+        <Image src={logoFull} alt="EnergyOS" class="logo-dark h-12 w-auto object-contain" />
+      </div>
+
+      <div class="mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest/10 text-forest text-[11px] font-bold uppercase tracking-[0.2em] mb-6 border border-forest/20">
+          Acceso anticipado · 30 días gratis
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-[var(--text-main)] mb-4">
+          Activá tu cuenta de <span class="text-forest italic">prueba</span>.
+        </h1>
+        <p class="text-mist text-lg max-w-2xl leading-relaxed">
+          Acceso completo a la plataforma por 30 días. Sin tarjeta de crédito. Cancelás cuando quieras.
+        </p>
+      </div>
+
+      <form id="trial-form" class="bg-[var(--surface)] border border-[var(--border)] rounded-3xl shadow-xl p-8 md:p-10 space-y-10" novalidate>
+
+        <!-- Sección: Datos de cuenta -->
+        <section class="space-y-6">
+          <header>
+            <h2 class="text-xl font-bold text-[var(--text-main)] mb-1">1. Datos de cuenta</h2>
+            <p class="text-mist text-sm">Vas a usar el email y la contraseña para iniciar sesión.</p>
+          </header>
+
+          <div class="space-y-2">
+            <label for="t-email" class="text-sm font-semibold text-[var(--text-main)] ml-1">Email corporativo *</label>
+            <input
+              type="email"
+              id="t-email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="usted@empresa.com"
+              class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="t-password" class="text-sm font-semibold text-[var(--text-main)] ml-1">Contraseña *</label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="relative flex-1">
+                <input
+                  type="password"
+                  id="t-password"
+                  name="password"
+                  required
+                  autocomplete="new-password"
+                  placeholder="Escribí o generá una contraseña segura"
+                  class="w-full pl-5 pr-12 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)] font-mono tracking-wider"
+                />
+                <button
+                  type="button"
+                  id="t-toggle-visibility"
+                  aria-label="Mostrar u ocultar contraseña"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-mist hover:text-forest transition-colors"
+                >
+                  <svg id="t-eye-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg id="t-eye-hide" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+                </button>
+              </div>
+              <button
+                type="button"
+                id="t-generate"
+                class="px-5 py-4 bg-forest hover:bg-forest-dark text-white rounded-xl font-bold transition-all shadow-md flex items-center justify-center gap-2"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                Generar
+              </button>
+              <button
+                type="button"
+                id="t-copy"
+                disabled
+                class="px-5 py-4 bg-[var(--background)] border border-[var(--border)] hover:border-forest text-[var(--text-main)] rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg id="t-copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span id="t-copy-label">Copiar</span>
+              </button>
+            </div>
+          </div>
+
+          <ul id="t-pwd-checklist" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+            <li data-rule="length" class="flex items-center gap-2 text-mist transition-colors">
+              <svg class="rule-icon-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              <svg class="rule-icon-ok hidden text-forest" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Mínimo 8 caracteres
+            </li>
+            <li data-rule="uppercase" class="flex items-center gap-2 text-mist transition-colors">
+              <svg class="rule-icon-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              <svg class="rule-icon-ok hidden text-forest" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Una letra mayúscula
+            </li>
+            <li data-rule="lowercase" class="flex items-center gap-2 text-mist transition-colors">
+              <svg class="rule-icon-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              <svg class="rule-icon-ok hidden text-forest" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Una letra minúscula
+            </li>
+            <li data-rule="digit" class="flex items-center gap-2 text-mist transition-colors">
+              <svg class="rule-icon-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              <svg class="rule-icon-ok hidden text-forest" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Un número
+            </li>
+          </ul>
+
+          <div id="t-pwd-warning" class="hidden p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-sm">
+            <div class="flex items-start gap-3">
+              <svg class="shrink-0 mt-0.5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+              <div>
+                <p class="font-bold mb-1">Guardá tu contraseña en un lugar seguro</p>
+                <p class="leading-relaxed">No vamos a poder recuperarla por vos. Copiala y guardala en un gestor de contraseñas o anotala antes de continuar.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sección: Persona -->
+        <section class="space-y-6 pt-6 border-t border-[var(--border)]">
+          <header>
+            <h2 class="text-xl font-bold text-[var(--text-main)] mb-1">2. Sobre vos</h2>
+            <p class="text-mist text-sm">Para personalizar tu experiencia.</p>
+          </header>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="t-fullname" class="text-sm font-semibold text-[var(--text-main)] ml-1">Nombre completo *</label>
+              <input
+                type="text"
+                id="t-fullname"
+                name="full_name"
+                required
+                autocomplete="name"
+                placeholder="Juan Pérez"
+                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+              />
+            </div>
+            <div class="space-y-2">
+              <label for="t-rol" class="text-sm font-semibold text-[var(--text-main)] ml-1">Rol *</label>
+              <CustomSelect id="t-rol" name="rol" options={ROL_OPTIONS} required />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="t-telefono" class="text-sm font-semibold text-[var(--text-main)] ml-1">Teléfono</label>
+            <input
+              type="tel"
+              id="t-telefono"
+              name="telefono"
+              autocomplete="tel"
+              placeholder="+54 11 1234-5678"
+              class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+            />
+          </div>
+        </section>
+
+        <!-- Sección: Empresa -->
+        <section class="space-y-6 pt-6 border-t border-[var(--border)]">
+          <header>
+            <h2 class="text-xl font-bold text-[var(--text-main)] mb-1">3. Tu empresa</h2>
+            <p class="text-mist text-sm">Para configurar tu cuenta con datos del MEM.</p>
+          </header>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="t-company" class="text-sm font-semibold text-[var(--text-main)] ml-1">Razón social *</label>
+              <input
+                type="text"
+                id="t-company"
+                name="company"
+                required
+                autocomplete="organization"
+                placeholder="Empresa S.A."
+                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+              />
+            </div>
+            <div class="space-y-2">
+              <label for="t-cuit" class="text-sm font-semibold text-[var(--text-main)] ml-1">CUIT</label>
+              <input
+                type="text"
+                id="t-cuit"
+                name="cuit"
+                placeholder="30-12345678-9"
+                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="t-tipo" class="text-sm font-semibold text-[var(--text-main)] ml-1">Tipo de empresa *</label>
+              <CustomSelect id="t-tipo" name="tipo_empresa" options={TIPO_EMPRESA_OPTIONS} required />
+            </div>
+            <div class="space-y-2">
+              <label for="t-industria" class="text-sm font-semibold text-[var(--text-main)] ml-1">Industria</label>
+              <CustomSelect id="t-industria" name="industria" options={INDUSTRIA_OPTIONS} />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="t-demanda" class="text-sm font-semibold text-[var(--text-main)] ml-1">Demanda eléctrica estimada</label>
+            <input
+              type="text"
+              id="t-demanda"
+              name="demanda_kw"
+              placeholder="Ej: 800 kW, 1.5 MW, no estoy seguro"
+              class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+            />
+            <p class="text-xs text-mist ml-1">Texto libre. Si no la conocés, dejá en blanco.</p>
+          </div>
+        </section>
+
+        <!-- Sección: Términos -->
+        <section class="pt-6 border-t border-[var(--border)]">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              id="t-terms"
+              name="accepts_terms"
+              required
+              class="mt-1 w-5 h-5 accent-forest cursor-pointer"
+            />
+            <span class="text-sm text-[var(--text-main)] leading-relaxed">
+              Acepto los <a href="#" class="text-forest hover:underline">términos y condiciones</a> y la <a href="#" class="text-forest hover:underline">política de privacidad</a>. Entiendo que esta cuenta tiene una vigencia de 30 días. *
+            </span>
+          </label>
+        </section>
+
+        <!-- Submit -->
+        <div class="pt-6 border-t border-[var(--border)]">
+          <button
+            type="submit"
+            id="t-submit"
+            class="w-full py-5 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-forest/20 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3"
+          >
+            <span id="t-submit-label">Crear cuenta de prueba</span>
+            <svg id="t-submit-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+          </button>
+          <p class="text-xs text-mist text-center mt-4">
+            Al crear tu cuenta tendrás acceso a la plataforma por 30 días sin costo.
+          </p>
+        </div>
+      </form>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .logo-dark {
+    display: none;
+    filter: brightness(0) invert(1);
+  }
+  :global(.dark) .logo-dark {
+    display: block;
+  }
+  :global(.dark) .logo-light {
+    display: none;
+  }
+</style>
+
+<script>
+  import { supabase } from "../db/supabase.js";
+
+  function generatePassword(length: number = 16): string {
+    const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const lower = "abcdefghijkmnopqrstuvwxyz";
+    const digits = "23456789";
+    const symbols = "!@#$%&*?";
+    const all = upper + lower + digits + symbols;
+
+    const required = [
+      upper[Math.floor(Math.random() * upper.length)],
+      lower[Math.floor(Math.random() * lower.length)],
+      digits[Math.floor(Math.random() * digits.length)],
+      symbols[Math.floor(Math.random() * symbols.length)],
+    ];
+
+    const remaining = Array.from(crypto.getRandomValues(new Uint32Array(length - required.length)))
+      .map((n) => all[n % all.length]);
+
+    return [...required, ...remaining]
+      .sort(() => Math.random() - 0.5)
+      .join("");
+  }
+
+  function initTrialForm() {
+    const form = document.getElementById("trial-form") as HTMLFormElement | null;
+    if (!form) return;
+
+    const pwdInput = document.getElementById("t-password") as HTMLInputElement | null;
+    const generateBtn = document.getElementById("t-generate") as HTMLButtonElement | null;
+    const copyBtn = document.getElementById("t-copy") as HTMLButtonElement | null;
+    const copyLabel = document.getElementById("t-copy-label");
+    const warning = document.getElementById("t-pwd-warning");
+    const submitBtn = document.getElementById("t-submit") as HTMLButtonElement | null;
+    const submitLabel = document.getElementById("t-submit-label");
+    const submitSpinner = document.getElementById("t-submit-spinner");
+    const toggleVisBtn = document.getElementById("t-toggle-visibility") as HTMLButtonElement | null;
+    const eyeShow = document.getElementById("t-eye-show");
+    const eyeHide = document.getElementById("t-eye-hide");
+    const checklist = document.getElementById("t-pwd-checklist");
+
+    const RULES: Record<string, (v: string) => boolean> = {
+      length: (v) => v.length >= 8,
+      uppercase: (v) => /[A-Z]/.test(v),
+      lowercase: (v) => /[a-z]/.test(v),
+      digit: (v) => /[0-9]/.test(v),
+    };
+
+    function isPasswordValid(v: string): boolean {
+      return Object.values(RULES).every((fn) => fn(v));
+    }
+
+    function updateChecklist() {
+      if (!pwdInput || !checklist) return;
+      const v = pwdInput.value;
+      checklist.querySelectorAll<HTMLLIElement>("li[data-rule]").forEach((li) => {
+        const rule = li.dataset.rule;
+        if (!rule || !RULES[rule]) return;
+        const ok = RULES[rule](v);
+        const pending = li.querySelector(".rule-icon-pending");
+        const okIcon = li.querySelector(".rule-icon-ok");
+        pending?.classList.toggle("hidden", ok);
+        okIcon?.classList.toggle("hidden", !ok);
+        li.classList.toggle("text-forest", ok);
+        li.classList.toggle("text-mist", !ok);
+      });
+    }
+
+    pwdInput?.addEventListener("input", () => {
+      updateChecklist();
+      if (pwdInput.value && copyBtn) copyBtn.removeAttribute("disabled");
+      else copyBtn?.setAttribute("disabled", "true");
+      warning?.classList.toggle("hidden", !pwdInput.value);
+    });
+
+    toggleVisBtn?.addEventListener("click", () => {
+      if (!pwdInput) return;
+      const showing = pwdInput.type === "text";
+      pwdInput.type = showing ? "password" : "text";
+      eyeShow?.classList.toggle("hidden", !showing);
+      eyeHide?.classList.toggle("hidden", showing);
+    });
+
+    generateBtn?.addEventListener("click", () => {
+      if (!pwdInput) return;
+      pwdInput.value = generatePassword(16);
+      pwdInput.type = "text";
+      eyeShow?.classList.add("hidden");
+      eyeHide?.classList.remove("hidden");
+      copyBtn?.removeAttribute("disabled");
+      warning?.classList.remove("hidden");
+      updateChecklist();
+    });
+
+    copyBtn?.addEventListener("click", async () => {
+      if (!pwdInput || !pwdInput.value) return;
+      try {
+        await navigator.clipboard.writeText(pwdInput.value);
+        if (copyLabel) copyLabel.textContent = "¡Copiado!";
+        setTimeout(() => {
+          if (copyLabel) copyLabel.textContent = "Copiar";
+        }, 2000);
+      } catch {
+        pwdInput.select();
+        document.execCommand("copy");
+      }
+    });
+
+    function setLoading(loading: boolean) {
+      if (!submitBtn || !submitLabel || !submitSpinner) return;
+      submitBtn.disabled = loading;
+      submitLabel.textContent = loading ? "Creando cuenta..." : "Crear cuenta de prueba";
+      submitSpinner.classList.toggle("hidden", !loading);
+    }
+
+    const REQUIRED_FIELDS = ["email", "password", "full_name", "rol", "company", "tipo_empresa", "accepts_terms"];
+
+    function fieldElement(name: string): HTMLElement | null {
+      return form?.querySelector<HTMLElement>(`[name="${name}"]`) ?? null;
+    }
+
+    function markError(name: string) {
+      const el = fieldElement(name);
+      if (!el) return;
+      if (el.classList.contains("sr-only")) {
+        const trigger = el.closest(".custom-select-container")?.querySelector(".select-trigger") as HTMLElement | null;
+        trigger?.classList.add("field-error-trigger");
+      } else if (el instanceof HTMLInputElement && el.type === "checkbox") {
+        el.closest("label")?.classList.add("field-error-checkbox");
+      } else {
+        el.classList.add("field-error");
+      }
+    }
+
+    function clearError(name: string) {
+      const el = fieldElement(name);
+      if (!el) return;
+      if (el.classList.contains("sr-only")) {
+        const trigger = el.closest(".custom-select-container")?.querySelector(".select-trigger") as HTMLElement | null;
+        trigger?.classList.remove("field-error-trigger");
+      } else if (el instanceof HTMLInputElement && el.type === "checkbox") {
+        el.closest("label")?.classList.remove("field-error-checkbox");
+      } else {
+        el.classList.remove("field-error");
+      }
+    }
+
+    function clearAllErrors() {
+      REQUIRED_FIELDS.forEach(clearError);
+    }
+
+    function scrollToField(name: string) {
+      const el = fieldElement(name);
+      if (!el) return;
+      const target = el.classList.contains("sr-only")
+        ? (el.closest(".custom-select-container") as HTMLElement | null)
+        : el;
+      target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    REQUIRED_FIELDS.forEach((name) => {
+      const el = fieldElement(name);
+      if (!el) return;
+      const isCheckbox = el instanceof HTMLInputElement && el.type === "checkbox";
+      const isSelect = el.classList.contains("sr-only");
+      const events = isCheckbox || isSelect ? ["change"] : ["input"];
+      events.forEach((ev) => el.addEventListener(ev, () => clearError(name)));
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearAllErrors();
+
+      const data = new FormData(form);
+      const email = String(data.get("email") || "").trim().toLowerCase();
+      const password = String(data.get("password") || "");
+      const fullName = String(data.get("full_name") || "").trim();
+      const rol = String(data.get("rol") || "").trim();
+      const company = String(data.get("company") || "").trim();
+      const tipoEmpresa = String(data.get("tipo_empresa") || "").trim();
+      const acceptsTerms = data.get("accepts_terms") === "on";
+
+      const missing: string[] = [];
+      if (!email) missing.push("email");
+      if (!password) missing.push("password");
+      if (!fullName) missing.push("full_name");
+      if (!rol) missing.push("rol");
+      if (!company) missing.push("company");
+      if (!tipoEmpresa) missing.push("tipo_empresa");
+      if (!acceptsTerms) missing.push("accepts_terms");
+
+      if (missing.length > 0) {
+        missing.forEach(markError);
+        scrollToField(missing[0]);
+        window.dispatchEvent(
+          new CustomEvent("show-feedback-modal", {
+            detail: {
+              type: "error",
+              title: "Faltan datos",
+              message: "Completá los campos marcados en rojo para continuar.",
+            },
+          }) as any
+        );
+        return;
+      }
+
+      if (!isPasswordValid(password)) {
+        markError("password");
+        scrollToField("password");
+        window.dispatchEvent(
+          new CustomEvent("show-feedback-modal", {
+            detail: {
+              type: "error",
+              title: "Contraseña insegura",
+              message: "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.",
+            },
+          }) as any
+        );
+        return;
+      }
+
+      setLoading(true);
+      const { error } = await supabase.rpc("create_trial_account", {
+        p_email: email,
+        p_password: password,
+        p_full_name: fullName,
+        p_company: company,
+        p_tipo_empresa: tipoEmpresa,
+        p_accepts_terms: acceptsTerms,
+        p_cuit: String(data.get("cuit") || "").trim() || null,
+        p_industria: String(data.get("industria") || "").trim() || null,
+        p_demanda_kw: String(data.get("demanda_kw") || "").trim() || null,
+        p_rol: String(data.get("rol") || "").trim() || null,
+        p_telefono: String(data.get("telefono") || "").trim() || null,
+      });
+      setLoading(false);
+
+      if (error) {
+        console.error("Trial signup error:", error);
+        const msg =
+          error.code === "23505"
+            ? "Ya existe una cuenta con ese email."
+            : error.message?.includes("términos")
+              ? "Tenés que aceptar los términos para continuar."
+              : "No pudimos crear la cuenta. Intentá nuevamente.";
+        window.dispatchEvent(
+          new CustomEvent("show-feedback-modal", {
+            detail: { type: "error", title: "Error de registro", message: msg },
+          }) as any
+        );
+        return;
+      }
+
+      window.dispatchEvent(
+        new CustomEvent("show-feedback-modal", {
+          detail: {
+            type: "success",
+            title: "¡Cuenta creada!",
+            message: `Guardá tu email (${email}) y la contraseña que generaste. Vamos a enviarte instrucciones de acceso muy pronto. Tu prueba dura 30 días.`,
+          },
+        }) as any
+      );
+      form.reset();
+      if (pwdInput) pwdInput.value = "";
+      copyBtn?.setAttribute("disabled", "true");
+      warning?.classList.add("hidden");
+      clearAllErrors();
+      updateChecklist();
+    });
+  }
+
+  initTrialForm();
+  document.addEventListener("astro:page-load", initTrialForm);
+</script>

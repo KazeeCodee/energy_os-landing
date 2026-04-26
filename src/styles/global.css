@@ -113,3 +113,18 @@
   .stagger-container.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
   .stagger-container.active > *:nth-child(n+5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
 }
+/* Form validation error states (global because CustomSelect lives in its own scope) */
+.field-error,
+.field-error-trigger {
+  border-color: rgb(239 68 68) !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+}
+
+.field-error-checkbox {
+  color: rgb(239 68 68) !important;
+}
+.field-error-checkbox input[type="checkbox"] {
+  outline: 2px solid rgb(239 68 68);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

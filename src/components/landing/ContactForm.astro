@@ -1,4 +1,27 @@
 ---
+import CustomSelect from "../ui/CustomSelect.astro";
+
+const TIPO_EMPRESA_OPTIONS = [
+  { value: "gran_usuario", label: "Gran Usuario en MEM" },
+  { value: "gudi", label: "GUDI (compra a distribuidora)" },
+  { value: "comercializador", label: "Comercializador MATER" },
+  { value: "otro", label: "Otro" },
+];
+
+const ROL_OPTIONS = [
+  { value: "cfo", label: "CFO / Finanzas" },
+  { value: "operaciones", label: "Operaciones" },
+  { value: "legal", label: "Legal / Regulatorio" },
+  { value: "compras", label: "Compras / Energía" },
+  { value: "otro", label: "Otro" },
+];
+
+const PLAN_OPTIONS = [
+  { value: "demo", label: "Demo general" },
+  { value: "pro-integral", label: "Plan Pro Integral" },
+  { value: "white-label", label: "Portal Comercializadores (White-Label)" },
+  { value: "indeciso", label: "Aún no estoy seguro" },
+];
 ---
 <section id="contacto" class="py-24 relative overflow-hidden">
   <!-- Background effects -->
@@ -20,48 +43,44 @@
             Nuestro equipo de expertos está listo para ayudarlo a optimizar su consumo y cumplir con la normativa vigente.
           </p>
           
-          <div class="space-y-8">
-            <div class="flex items-start gap-4 group">
-              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div class="grid grid-cols-1 gap-4 sm:gap-6">
+            <div class="p-6 rounded-2xl bg-forest/5 border border-forest/10 hover:border-forest/20 transition-all group reveal-left" style="transition-delay: 0.3s;">
+              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest mb-4 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
-              <div>
-                <h4 class="font-bold text-[var(--text-main)]">Email</h4>
-                <p class="text-mist">hola@kazecode.com.ar</p>
-              </div>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Seguridad de Datos</h4>
+              <p class="text-mist text-sm leading-relaxed">Infraestructura blindada para el manejo de sus perfiles de carga y transacciones en el MEM.</p>
             </div>
-            
-            <div class="flex items-start gap-4 group">
-              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+
+            <div class="p-6 rounded-2xl bg-navy/5 border border-navy/10 hover:border-navy/20 transition-all group reveal-left" style="transition-delay: 0.4s;">
+              <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy mb-4 group-hover:scale-110 transition-transform dark:text-forest-light dark:bg-forest/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
               </div>
-              <div>
-                <h4 class="font-bold text-[var(--text-main)]">Ubicación</h4>
-                <p class="text-mist">Buenos Aires, Argentina</p>
-              </div>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Modularidad Total</h4>
+              <p class="text-mist text-sm leading-relaxed">Nuestra plataforma se adapta a su volumen operativo, desde un solo nodo hasta redes nacionales.</p>
             </div>
-            
-            <div class="flex items-start gap-4 group">
-              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+
+            <div class="p-6 rounded-2xl bg-forest/5 border border-forest/10 hover:border-forest/20 transition-all group reveal-left" style="transition-delay: 0.5s;">
+              <div class="w-12 h-12 rounded-xl bg-forest/20 flex items-center justify-center text-forest mb-4 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
-              <div>
-                <h4 class="font-bold text-[var(--text-main)]">Teléfono</h4>
-                <p class="text-mist">+54 11 1234-5678</p>
-              </div>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Soporte Estratégico</h4>
+              <p class="text-mist text-sm leading-relaxed">Acompañamiento experto en la interpretación de normativas y optimización de costos marginales.</p>
             </div>
           </div>
         </div>
         
         <!-- Right: Form Card -->
         <div class="reveal" style="transition-delay: 0.2s;">
-          <div class="p-8 md:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border)] shadow-xl relative overflow-hidden backdrop-blur-sm">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-forest/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="p-8 md:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border)] shadow-xl relative backdrop-blur-sm">
+            <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-forest/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            </div>
             
             <form id="contact-form" class="space-y-6 relative z-10" novalidate>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label for="name" class="text-sm font-semibold text-[var(--text-main)] ml-1">Nombre Completo</label>
+                  <label for="name" class="text-sm font-semibold text-[var(--text-main)] ml-1">Nombre Completo *</label>
                   <input
                     type="text"
                     id="name"
@@ -84,7 +103,7 @@
               </div>
 
               <div class="space-y-2">
-                <label for="email" class="text-sm font-semibold text-[var(--text-main)] ml-1">Email Corporativo</label>
+                <label for="email" class="text-sm font-semibold text-[var(--text-main)] ml-1">Email Corporativo *</label>
                 <input
                   type="email"
                   id="email"
@@ -95,8 +114,39 @@
                 />
               </div>
 
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="tipo_empresa" class="text-sm font-semibold text-[var(--text-main)] ml-1">Tipo de empresa</label>
+                  <CustomSelect
+                    id="tipo_empresa"
+                    name="tipo_empresa"
+                    options={TIPO_EMPRESA_OPTIONS}
+                    placeholder="Seleccionar..."
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label for="rol" class="text-sm font-semibold text-[var(--text-main)] ml-1">Rol</label>
+                  <CustomSelect
+                    id="rol"
+                    name="rol"
+                    options={ROL_OPTIONS}
+                    placeholder="Seleccionar..."
+                  />
+                </div>
+              </div>
+
               <div class="space-y-2">
-                <label for="message" class="text-sm font-semibold text-[var(--text-main)] ml-1">Mensaje</label>
+                <label for="plan_interes" class="text-sm font-semibold text-[var(--text-main)] ml-1">Plan de interés</label>
+                <CustomSelect
+                  id="plan_interes"
+                  name="plan_interes"
+                  options={PLAN_OPTIONS}
+                  placeholder="Seleccionar..."
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label for="message" class="text-sm font-semibold text-[var(--text-main)] ml-1">Mensaje *</label>
                 <textarea
                   id="message"
                   name="message"
@@ -145,6 +195,65 @@
                   feedback?.classList.add("hidden");
                 });
 
+                const REQUIRED_FIELDS = ["name", "email", "message"];
+
+                function fieldElement(name: string): HTMLElement | null {
+                  return form?.querySelector<HTMLElement>(`[name="${name}"]`) ?? null;
+                }
+
+                function markError(name: string) {
+                  const el = fieldElement(name);
+                  if (!el) return;
+                  if (el.classList.contains("sr-only")) {
+                    const trigger = el.closest(".custom-select-container")?.querySelector(".select-trigger") as HTMLElement | null;
+                    trigger?.classList.add("field-error-trigger");
+                  } else {
+                    el.classList.add("field-error");
+                  }
+                }
+
+                function clearError(name: string) {
+                  const el = fieldElement(name);
+                  if (!el) return;
+                  if (el.classList.contains("sr-only")) {
+                    const trigger = el.closest(".custom-select-container")?.querySelector(".select-trigger") as HTMLElement | null;
+                    trigger?.classList.remove("field-error-trigger");
+                  } else {
+                    el.classList.remove("field-error");
+                  }
+                }
+
+                function clearAllErrors() {
+                  REQUIRED_FIELDS.forEach(clearError);
+                }
+
+                function scrollToField(name: string) {
+                  const el = fieldElement(name);
+                  if (!el) return;
+                  const target = el.classList.contains("sr-only")
+                    ? (el.closest(".custom-select-container") as HTMLElement | null)
+                    : el;
+                  target?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+
+                REQUIRED_FIELDS.forEach((n) => {
+                  const el = fieldElement(n);
+                  if (!el) return;
+                  el.addEventListener("input", () => clearError(n));
+                });
+
+                document.querySelectorAll<HTMLAnchorElement>(".cta-plan-trigger").forEach((trigger) => {
+                  trigger.addEventListener("click", () => {
+                    const plan = trigger.dataset.plan;
+                    if (!plan) return;
+                    const planSelect = document.getElementById("plan_interes") as HTMLSelectElement | null;
+                    if (planSelect && Array.from(planSelect.options).some((o) => o.value === plan)) {
+                      planSelect.value = plan;
+                      planSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                  });
+                });
+
                 form.addEventListener("submit", async (e) => {
                   e.preventDefault();
                   if (feedback) feedback.classList.add("hidden");
@@ -155,11 +264,22 @@
                     company: String(data.get("company") || "").trim() || null,
                     email: String(data.get("email") || "").trim(),
                     message: String(data.get("message") || "").trim(),
+                    tipo_empresa: String(data.get("tipo_empresa") || "").trim() || null,
+                    rol: String(data.get("rol") || "").trim() || null,
+                    plan_interes: String(data.get("plan_interes") || "").trim() || null,
                   };
 
-                  if (!payload.name || !payload.email || !payload.message) {
+                  clearAllErrors();
+                  const missing: string[] = [];
+                  if (!payload.name) missing.push("name");
+                  if (!payload.email) missing.push("email");
+                  if (!payload.message) missing.push("message");
+
+                  if (missing.length > 0) {
+                    missing.forEach(markError);
+                    scrollToField(missing[0]);
                     if (feedback) {
-                      feedback.textContent = "Por favor complete los campos obligatorios.";
+                      feedback.textContent = "Complete los campos marcados en rojo.";
                       feedback.classList.remove("hidden");
                       feedback.className = "rounded-xl px-4 py-3 text-sm font-medium bg-red-500/10 text-red-500 border border-red-500/20";
                     }
@@ -202,6 +322,11 @@
                     }) as any
                   );
                   form.reset();
+                  clearAllErrors();
+                  // Reset custom selects manually
+                  form.querySelectorAll('select').forEach(select => {
+                    select.dispatchEvent(new Event('change', { bubbles: true }));
+                  });
                 });
               }
 

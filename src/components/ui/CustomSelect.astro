@@ -1,0 +1,192 @@
+---
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  id: string;
+  name: string;
+  options: Option[];
+  placeholder?: string;
+  required?: boolean;
+}
+
+const { id, name, options, placeholder = "Seleccionar...", required = false } = Astro.props;
+---
+
+<div class="custom-select-container relative w-full" id={`container-${id}`}>
+  <!-- Hidden select for FormData/native behavior -->
+  <select id={id} name={name} class="sr-only" required={required} tabindex="-1">
+    <option value="">{placeholder}</option>
+    {options.map(option => (
+      <option value={option.value}>{option.label}</option>
+    ))}
+  </select>
+
+  <!-- Custom Trigger -->
+  <button
+    type="button"
+    class="select-trigger w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-left flex items-center justify-between group cursor-pointer"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    id={`${id}-trigger`}
+  >
+    <span class="placeholder transition-colors text-[var(--text-muted)]">{placeholder}</span>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="20" 
+      height="20" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round" 
+      class="chevron transition-transform duration-300 text-[var(--text-muted)] group-hover:text-forest"
+    >
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Options Menu -->
+  <ul
+    class="select-menu absolute z-[60] left-0 right-0 mt-2 py-2 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl opacity-0 translate-y-2 scale-95 pointer-events-none transition-all duration-200 origin-top overflow-hidden backdrop-blur-xl"
+    role="listbox"
+    tabindex="-1"
+  >
+    {options.map(option => (
+      <li
+        class="block px-4 py-3 text-sm text-[var(--text-main)] hover:bg-forest/10 hover:text-forest cursor-pointer transition-colors active:bg-forest/20"
+        role="option"
+        data-value={option.value}
+      >
+        {option.label}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .select-menu {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .select-menu::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .select-menu::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .select-menu::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+  }
+
+  .custom-select-container.open .select-menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .custom-select-container.open .chevron {
+    transform: rotate(180deg);
+  }
+  
+  .custom-select-container.open .select-trigger {
+    border-color: var(--forest);
+    box-shadow: 0 0 0 4px rgba(21, 202, 202, 0.1);
+  }
+
+  .selected-text {
+    color: var(--text-main);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  function setupCustomSelects() {
+    const containers = document.querySelectorAll('.custom-select-container');
+    
+    containers.forEach(container => {
+      const trigger = container.querySelector('.select-trigger') as HTMLButtonElement;
+      const menu = container.querySelector('.select-menu') as HTMLUListElement;
+      const hiddenSelect = container.querySelector('select') as HTMLSelectElement;
+      const placeholderText = container.querySelector('.placeholder') as HTMLSpanElement;
+      const defaultPlaceholder = placeholderText.textContent;
+      
+      const toggleMenu = () => {
+        const isOpen = container.classList.toggle('open');
+        trigger.setAttribute('aria-expanded', isOpen.toString());
+        
+        if (isOpen) {
+          // Close other menus
+          containers.forEach(c => {
+            if (c !== container) {
+              c.classList.remove('open');
+              c.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      };
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      menu.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const option = target.closest('li[role="option"]');
+        
+        if (option) {
+          const value = option.getAttribute('data-value');
+          const label = option.textContent?.trim();
+          
+          if (value !== null && label) {
+            hiddenSelect.value = value;
+            placeholderText.textContent = label;
+            placeholderText.classList.add('selected-text');
+            placeholderText.classList.remove('text-[var(--text-muted)]');
+            
+            // Trigger change event for reactive systems (like the plan trigger in ContactForm)
+            hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            hiddenSelect.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          container.classList.remove('open');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Handle updating the custom select when the native select's value changes
+      // (useful for external scripts that might set the value)
+      hiddenSelect.addEventListener('change', () => {
+        const selectedOption = Array.from(hiddenSelect.options).find(o => o.value === hiddenSelect.value);
+        if (selectedOption && selectedOption.value !== "") {
+          placeholderText.textContent = selectedOption.textContent;
+          placeholderText.classList.add('selected-text');
+        } else {
+          placeholderText.textContent = defaultPlaceholder;
+          placeholderText.classList.remove('selected-text');
+        }
+      });
+    });
+
+    document.addEventListener('click', () => {
+      containers.forEach(c => {
+        c.classList.remove('open');
+        c.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // Setup on page load
+  setupCustomSelects();
+
+  // Setup on Astro page transitions
+  document.addEventListener('astro:page-load', setupCustomSelects);
+</script>
