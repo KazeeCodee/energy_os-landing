@@ -1,120 +1,185 @@
 ---
-const tiers = [
-  {
-    name: "Plan Compliance",
-    price: "149",
-    description: "Enfocado en mitigar el riesgo de incumplimiento de la Ley 27.191.",
-    features: [
-      "Módulo 1: Monitorización Automática",
-      "Alertas de multas proyectadas",
-      "Reporting mensual para CFO",
-      "Actualización Res. 400"
-    ],
-    cta: "Empezar ahora",
-    highlight: false
-  },
-  {
-    name: "Plan Gestión",
-    price: "399",
-    description: "Añade benchmark de contratos y proyección estacional. El dulce ahorro.",
-    features: [
-      "Todo en Compliance",
-      "Módulo 2: Benchmark MATER",
-      "Módulo 3: Proyección MEM",
-      "Simulador de costos futuros",
-      "Soporte prioritario"
-    ],
-    cta: "Más Popular",
-    highlight: true,
-    badge: "Mejor ROI"
-  },
-  {
-    name: "Plan Full",
-    price: "699",
-    description: "Para grandes usuarios y GUDIs que necesitan evaluar el paso al MEM.",
-    features: [
-      "Todo en Gestión",
-      "Módulo 4: Calculadora de Migración",
-      "Dashboard multi-planta",
-      "Exportación de datos RAW",
-      "Account Manager dedicado"
-    ],
-    cta: "Contactar Ventas",
-    highlight: false
-  }
+import { Image } from "astro:assets";
+
+const features = [
+  "Monitorización Automática de Mercado",
+  "Alertas de Cumplimiento Ley 27.191",
+  "Benchmark MATER en tiempo real",
+  "Simulador de Costos y Proyección del Sector",
+  "Dashboard de Inteligencia Multi-planta",
+  "Exportación de Datos Operativos RAW",
+  "Soporte Premium 24/7"
 ];
+
+// Cálculo de precios
+const annualPrice = 800;
+const annualMonthlyEquivalent = Math.round((annualPrice / 12) * 100) / 100;
+const monthlyPrice = Math.round(( (annualPrice / 12) + (annualPrice * 0.01) ) * 100) / 100; 
 ---
-<section class="py-24" id="pricing">
+
+<section class="py-24 relative overflow-hidden" id="pricing">
+  <!-- Dekoración de fondo -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-full h-full bg-[radial-gradient(circle_at_center,var(--color-forest-transparent)_0%,transparent_70%)] opacity-20"></div>
+
   <div class="container mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-      <h2 class="text-3xl md:text-5xl font-bold mb-6">Precios transparentes según tu <span class="text-forest">ahorro</span></h2>
-      <p class="text-mist text-lg">Inversión calculada sobre la evitación de pérdidas reales. El ROI es directo desde el primer mes.</p>
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+      <h2 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-navy dark:text-white">
+        Un solo plan, <span class="inline-block px-1 bg-gradient-to-r from-forest to-cyan-400 bg-clip-text text-transparent italic">toda la potencia</span>
+      </h2>
+      <p class="text-mist text-lg mb-12">
+        Sin complicaciones. Acceso ilimitado a todas nuestras herramientas de inteligencia energética con una estructura de precios transparente.
+      </p>
+
+      <!-- Toggle Switch -->
+      <div class="flex items-center justify-center gap-4 mb-16">
+        <span id="label-monthly" class="text-sm font-bold transition-colors">Mensual</span>
+        <button 
+          id="pricing-toggle"
+          class="relative w-16 h-8 rounded-full p-1 transition-all focus:outline-none pricing-toggle-btn shadow-inner"
+          aria-label="Toggle pricing"
+        >
+          <div id="toggle-knob" class="w-6 h-6 rounded-full bg-forest shadow-md transition-transform translate-x-0"></div>
+        </button>
+        <div class="flex items-center gap-2">
+          <span id="label-annual" class="text-sm font-bold text-mist transition-colors">Anual</span>
+          <span class="px-2 py-0.5 rounded-full bg-forest/10 text-forest text-[10px] font-bold uppercase tracking-wider border border-forest/20">Ahorre 12%</span>
+        </div>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto stagger-container">
-      {tiers.map((tier) => (
-        <div class={`relative flex flex-col p-8 rounded-3xl border transition-all duration-300 ${
-          tier.highlight 
-            ? 'bg-forest dark:bg-forest text-white border-forest scale-105 shadow-2xl shadow-forest/20 z-10' 
-            : 'bg-[var(--surface)] border-[var(--border)] hover:border-forest/50'
-        }`}>
-          {tier.highlight && (
-            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white dark:bg-white text-forest dark:text-forest px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg border border-forest/10">
-              {tier.badge}
+    <!-- Main Pricing Card -->
+    <div class="max-w-4xl mx-auto reveal" style="transition-delay: 0.2s;">
+      <div class="relative bg-[var(--surface)] border border-[var(--border)] rounded-[3rem] overflow-hidden shadow-2xl backdrop-blur-md group hover:border-forest/30 transition-colors">
+        <!-- Glow effect en hover -->
+        <div class="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(21,202,202,0.05)_0%,transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <!-- Left: Pricing Info -->
+          <div class="p-10 md:p-14 border-b md:border-b-0 md:border-r border-[var(--border)]">
+            <div class="mb-8">
+              <h3 class="text-2xl font-bold mb-4">Plan Pro Integral</h3>
+              <p class="text-mist leading-relaxed">
+                Diseñado para Grandes Usuarios energéticos que buscan optimizar cada MWh y mitigar riesgos legales con precisión quirúrgica.
+              </p>
             </div>
-          )}
-          
-          <div class="mb-8">
-            <h3 class="text-xl font-bold mb-2">{tier.name}</h3>
-            <p class={`text-sm ${tier.highlight ? 'text-white/80' : 'text-mist'}`}>{tier.description}</p>
+
+            <div class="mb-12">
+              <div class="pricing-display flex items-baseline gap-2">
+                <span class="text-2xl font-bold text-mist">USD</span>
+                <span id="price-value" class="text-6xl md:text-7xl font-bold tracking-tighter transition-all duration-300">{monthlyPrice}</span>
+                <span id="price-period" class="text-xl font-bold text-mist transition-all">/mes</span>
+              </div>
+              <p id="billing-info" class="text-xs text-mist/60 mt-3 font-medium uppercase tracking-widest">Facturado mensualmente</p>
+            </div>
+
+            <a href="#demo" class="block w-full py-5 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold text-center text-lg transition-all shadow-xl shadow-forest/20 hover:scale-[1.02] active:scale-[0.98]">
+              Empezar ahora
+            </a>
+            <p class="text-[10px] text-center text-mist mt-6 uppercase tracking-widest font-semibold">Sin contratos a largo plazo • Cancela cuando quieras</p>
           </div>
 
-          <div class="mb-8">
-            <div class="flex items-end gap-1">
-              <span class={`text-sm font-medium mb-2 ${tier.highlight ? 'text-white/70' : 'text-mist'}`}>USD</span>
-              <span class="text-5xl font-bold">{tier.price}</span>
-              <span class={`mb-2 ${tier.highlight ? 'text-white/70' : 'text-mist'}`}>/mes</span>
-            </div>
-            <div class={`text-[10px] mt-1 ${tier.highlight ? 'text-white/50' : 'text-mist/60'}`}>* Facturado anualmente</div>
+          <!-- Right: Features -->
+          <div class="p-10 md:p-14 bg-navy/5 dark:bg-white/[0.02]">
+            <h4 class="font-bold text-sm uppercase tracking-widest text-navy dark:text-white/80 mb-8">¿Qué incluye?</h4>
+            <ul class="space-y-5">
+              {features.map(feature => (
+                <li class="flex items-start gap-4 group">
+                  <div class="mt-1 w-5 h-5 rounded-full bg-forest/20 flex items-center justify-center shrink-0 border border-forest/30 group-hover:bg-forest transition-colors">
+                    <svg class="text-forest group-hover:text-white transition-colors" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <span class="text-mist font-medium leading-tight">{feature}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          <ul class="flex-1 space-y-4 mb-8">
-            {tier.features.map(feature => (
-              <li class="flex items-start gap-3 text-sm">
-                <svg class={`${tier.highlight ? 'text-white' : 'text-forest'} mt-0.5 shrink-0`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                <span class={tier.highlight ? 'text-white/90' : 'text-mist'}>{feature}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a 
-            href={tier.highlight ? "#demo" : "#"} 
-            class={`w-full py-4 rounded-xl font-bold text-center transition-all ${
-              tier.highlight 
-                ? 'bg-white dark:bg-white text-forest dark:text-forest hover:shadow-xl' 
-                : 'bg-[var(--border)] hover:bg-forest/10 hover:text-forest'
-            }`}
-          >
-            {tier.cta}
-          </a>
         </div>
-      ))}
+      </div>
     </div>
 
-    <!-- White-Label Block -->
-    <div class="mt-16 max-w-6xl mx-auto">
-      <div class="bg-gradient-to-r from-[var(--surface)] to-[var(--background)] border border-[var(--border)] p-8 md:p-12 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
-        <div>
-          <div class="inline-flex items-center px-3 py-1 rounded-full bg-forest/10 text-forest text-[10px] font-bold uppercase mb-4 tracking-wider">Partner Program</div>
-          <h3 class="text-3xl font-bold mb-3">¿Sos Comercializador MATER?</h3>
-          <p class="text-mist max-w-xl text-lg">Obtené tu propio portal White-Label automatizado para gestionar tus Grandes Usuarios con marca propia. Aumentá la retención de tus clientes con datos reales de CAMMESA.</p>
+    <!-- White-Label Block: Ahora como Add-on o Partner -->
+    <div class="mt-16 max-w-4xl mx-auto reveal" style="transition-delay: 0.4s;">
+      <div class="bg-gradient-to-r from-navy to-navy-light p-10 md:p-12 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-8 text-white shadow-2xl relative overflow-hidden">
+        <!-- Decoración interna -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div class="relative z-10">
+          <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase mb-4 tracking-wider border border-white/20">Portal Comercializadores</div>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white">¿Eres Partner Estratégico?</h3>
+          <p class="text-white/70 max-w-xl">
+             Ofrecemos soluciones White-Label para comercializadores que desean potenciar su marca con nuestra tecnología.
+          </p>
         </div>
-        <div class="text-center md:text-right shrink-0">
-          <div class="text-4xl font-bold mb-1 tracking-tight">Desde USD 899<span class="text-sm font-normal text-mist"> /mes</span></div>
-          <p class="text-xs text-mist mb-8 uppercase tracking-widest">+ Tarifa por cliente activo</p>
-          <a href="#demo" class="inline-block px-10 py-4 bg-forest text-white rounded-2xl font-bold hover:bg-forest-dark transition-all shadow-xl shadow-forest/20 hover:scale-105 active:scale-95">Solicitar Demo White-Label</a>
+        <div class="relative z-10 shrink-0">
+          <a href="#demo" class="inline-block px-10 py-4 bg-white text-navy rounded-2xl font-bold hover:bg-forest hover:text-white transition-all shadow-xl">Contactar con Alianzas</a>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script define:vars={{ monthlyPrice, annualMonthlyEquivalent, annualPrice }}>
+  function setupPricing() {
+    const toggle = document.getElementById('pricing-toggle');
+    const knob = document.getElementById('toggle-knob');
+    const priceValue = document.getElementById('price-value');
+    const pricePeriod = document.getElementById('price-period');
+    const billingInfo = document.getElementById('billing-info');
+    const labelMonthly = document.getElementById('label-monthly');
+    const labelAnnual = document.getElementById('label-annual');
+
+    let isAnnual = false;
+
+    function updatePricing() {
+      if (isAnnual) {
+        knob.classList.add('translate-x-8');
+        priceValue.textContent = annualMonthlyEquivalent.toString();
+        pricePeriod.textContent = '/mes';
+        billingInfo.textContent = `Facturado anualmente (USD ${annualPrice}/año)`;
+        
+        labelAnnual.classList.remove('text-mist');
+        labelAnnual.classList.add('text-forest');
+        
+        labelMonthly.classList.remove('text-forest');
+        labelMonthly.classList.add('text-mist');
+      } else {
+        knob.classList.remove('translate-x-8');
+        priceValue.textContent = monthlyPrice.toString();
+        pricePeriod.textContent = '/mes';
+        billingInfo.textContent = 'Facturado mensualmente';
+        
+        labelMonthly.classList.remove('text-mist');
+        labelMonthly.classList.add('text-forest');
+        
+        labelAnnual.classList.remove('text-forest');
+        labelAnnual.classList.add('text-mist');
+      }
+    }
+
+    toggle?.addEventListener('click', () => {
+      isAnnual = !isAnnual;
+      updatePricing();
+    });
+
+    // Init
+    updatePricing();
+  }
+
+  setupPricing();
+  document.addEventListener('astro:page-load', setupPricing);
+</script>
+
+<style>
+  .pricing-toggle-btn {
+    background-color: #e2e8f0; /* Color gris claro sólido */
+    border: 1px solid #cbd5e1;
+  }
+  
+  :global(.dark) .pricing-toggle-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  #pricing-toggle:hover #toggle-knob {
+    box-shadow: 0 0 15px var(--color-forest);
+  }
+</style>

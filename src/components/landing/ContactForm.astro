@@ -1,0 +1,217 @@
+---
+---
+<section id="contacto" class="py-24 relative overflow-hidden">
+  <!-- Background effects -->
+  <div class="absolute top-1/2 left-0 -z-10 w-[500px] h-[500px] bg-forest/10 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2 opacity-30"></div>
+  
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        <!-- Left: Info -->
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest/5 text-forest text-[11px] font-bold uppercase tracking-[0.2em] mb-6 border border-forest/10">
+            Contacto
+          </div>
+          <h2 class="text-4xl md:text-5xl font-bold mb-8 tracking-tight leading-tight text-[var(--text-main)]">
+            Hablemos de su próximo paso en <span class="text-forest italic">eficiencia</span>.
+          </h2>
+          <p class="text-mist text-lg mb-12 max-w-md leading-relaxed">
+            Nuestro equipo de expertos está listo para ayudarlo a optimizar su consumo y cumplir con la normativa vigente.
+          </p>
+          
+          <div class="space-y-8">
+            <div class="flex items-start gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-[var(--text-main)]">Email</h4>
+                <p class="text-mist">hola@kazecode.com.ar</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-[var(--text-main)]">Ubicación</h4>
+                <p class="text-mist">Buenos Aires, Argentina</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest flex-shrink-0 group-hover:bg-forest group-hover:text-white transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-[var(--text-main)]">Teléfono</h4>
+                <p class="text-mist">+54 11 1234-5678</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Form Card -->
+        <div class="reveal" style="transition-delay: 0.2s;">
+          <div class="p-8 md:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border)] shadow-xl relative overflow-hidden backdrop-blur-sm">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-forest/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            
+            <form id="contact-form" class="space-y-6 relative z-10" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="name" class="text-sm font-semibold text-[var(--text-main)] ml-1">Nombre Completo</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="Ej: Juan Pérez"
+                    class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label for="company" class="text-sm font-semibold text-[var(--text-main)] ml-1">Empresa</label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    placeholder="Ej: Energía S.A."
+                    class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="email" class="text-sm font-semibold text-[var(--text-main)] ml-1">Email Corporativo</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="juan@empresa.com"
+                  class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label for="message" class="text-sm font-semibold text-[var(--text-main)] ml-1">Mensaje</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows="4"
+                  placeholder="¿En qué podemos ayudarlo?"
+                  class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)] resize-none"
+                ></textarea>
+              </div>
+
+              <div id="form-feedback" class="hidden rounded-xl px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></div>
+
+              <button
+                id="contact-submit"
+                type="submit"
+                class="w-full py-4 bg-forest hover:bg-forest-dark text-white rounded-xl font-bold transition-all shadow-lg shadow-forest/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                <span id="contact-submit-label">Enviar Mensaje</span>
+                <svg id="contact-submit-icon" class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <svg id="contact-submit-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+              </button>
+            </form>
+
+            <script>
+              import { supabase } from "../../db/supabase.js";
+
+              const form = document.getElementById("contact-form") as HTMLFormElement | null;
+              const feedback = document.getElementById("form-feedback");
+              const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement | null;
+              const submitLabel = document.getElementById("contact-submit-label");
+              const submitIcon = document.getElementById("contact-submit-icon");
+              const submitSpinner = document.getElementById("contact-submit-spinner");
+
+              function showFeedback(type: "success" | "error", msg: string) {
+                if (!feedback) return;
+                feedback.textContent = msg;
+                feedback.classList.remove("hidden");
+                feedback.className =
+                  type === "success"
+                    ? "rounded-xl px-4 py-3 text-sm font-medium bg-forest/10 text-forest border border-forest/20"
+                    : "rounded-xl px-4 py-3 text-sm font-medium bg-red-500/10 text-red-500 border border-red-500/20";
+              }
+
+              function setLoading(loading: boolean) {
+                if (!submitBtn || !submitLabel || !submitIcon || !submitSpinner) return;
+                submitBtn.disabled = loading;
+                submitLabel.textContent = loading ? "Enviando..." : "Enviar Mensaje";
+                submitIcon.classList.toggle("hidden", loading);
+                submitSpinner.classList.toggle("hidden", !loading);
+              }
+
+              form?.addEventListener("input", () => {
+                feedback?.classList.add("hidden");
+              });
+
+              form?.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                feedback?.classList.add("hidden");
+                if (!form) return;
+
+                const data = new FormData(form);
+                const payload = {
+                  name: String(data.get("name") || "").trim(),
+                  company: String(data.get("company") || "").trim() || null,
+                  email: String(data.get("email") || "").trim(),
+                  message: String(data.get("message") || "").trim(),
+                };
+
+                if (!payload.name || !payload.email || !payload.message) {
+                  showFeedback("error", "Por favor complete los campos obligatorios.");
+                  return;
+                }
+
+                setLoading(true);
+                const { error } = await supabase.from("contact_messages").insert(payload);
+                setLoading(false);
+
+                if (error) {
+                  console.error("Supabase insert error:", error);
+                  const msg =
+                    error.code === "23514"
+                      ? "Algún campo no cumple el formato requerido."
+                      : error.code === "22001"
+                        ? "Algún campo excede la longitud máxima."
+                        : "No pudimos enviar su mensaje en este momento. Por favor, intente nuevamente más tarde.";
+                  
+                  window.dispatchEvent(
+                    new CustomEvent("show-feedback-modal", {
+                      detail: {
+                        type: "error",
+                        title: "Error de envío",
+                        message: msg,
+                      },
+                    }) as any
+                  );
+                  return;
+                }
+
+                window.dispatchEvent(
+                  new CustomEvent("show-feedback-modal", {
+                    detail: {
+                      type: "success",
+                      title: "¡Mensaje enviado!",
+                      message:
+                        "Gracias por contactarnos. Nuestro equipo revisará su mensaje y se pondrá en contacto a la brevedad.",
+                    },
+                  }) as any
+                );
+                form.reset();
+              });
+            </script>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>

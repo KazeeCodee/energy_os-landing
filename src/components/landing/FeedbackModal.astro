@@ -1,0 +1,138 @@
+---
+---
+<div id="feedback-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-md" id="modal-backdrop"></div>
+  
+  <!-- Modal Content -->
+  <div 
+    class="relative bg-[var(--surface)] border border-[var(--border)] rounded-[2.5rem] p-10 max-w-md w-full mx-6 shadow-2xl transform scale-90 transition-transform duration-300"
+    id="modal-card"
+  >
+    <div class="text-center">
+      <!-- Icon Container -->
+      <div id="modal-icon-container" class="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8 relative">
+        <div id="modal-icon-ping" class="absolute inset-0 rounded-3xl animate-ping opacity-20"></div>
+        
+        <!-- Success Icon -->
+        <svg id="icon-success" xmlns="http://www.w3.org/2000/svg" class="hidden w-10 h-10 text-forest relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+
+        <!-- Info Icon -->
+        <svg id="icon-info" xmlns="http://www.w3.org/2000/svg" class="hidden w-10 h-10 text-mist relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+
+        <!-- Error Icon -->
+        <svg id="icon-error" xmlns="http://www.w3.org/2000/svg" class="hidden w-10 h-10 text-red-500 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+
+      <h3 id="modal-title" class="text-2xl font-bold mb-4 text-[var(--text-main)] tracking-tight">¡Éxito!</h3>
+      <p id="modal-message" class="text-mist mb-10 leading-relaxed font-medium">Operación completada correctamente.</p>
+
+      <button 
+        id="modal-close"
+        class="w-full py-4 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold transition-all shadow-lg shadow-forest/20 active:scale-95"
+      >
+        Entendido
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupModal() {
+    const modal = document.getElementById('feedback-modal');
+    const card = document.getElementById('modal-card');
+    const backdrop = document.getElementById('modal-backdrop');
+    const closeBtn = document.getElementById('modal-close');
+    const titleElem = document.getElementById('modal-title');
+    const messageElem = document.getElementById('modal-message');
+    
+    // Icons
+    const iconContainer = document.getElementById('modal-icon-container');
+    const iconPing = document.getElementById('modal-icon-ping');
+    const iconSuccess = document.getElementById('icon-success');
+    const iconInfo = document.getElementById('icon-info');
+    const iconError = document.getElementById('icon-error');
+
+    if (!modal || !card || !backdrop || !closeBtn) return;
+
+    function showModal(type: 'success' | 'error' | 'info', title: string, message: string) {
+      if (titleElem) titleElem.textContent = title;
+      if (messageElem) messageElem.textContent = message;
+
+      // Reset styles and icons
+      iconSuccess?.classList.add('hidden');
+      iconInfo?.classList.add('hidden');
+      iconError?.classList.add('hidden');
+      
+      if (type === 'success') {
+        if (iconSuccess) iconSuccess.classList.remove('hidden');
+        if (iconContainer) iconContainer.className = "w-20 h-20 bg-forest/10 rounded-3xl flex items-center justify-center mx-auto mb-8 relative";
+        if (iconPing) iconPing.className = "absolute inset-0 bg-forest/20 rounded-3xl animate-ping opacity-20";
+        if (closeBtn) closeBtn.className = "w-full py-4 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold transition-all shadow-lg shadow-forest/20 active:scale-95";
+      } else if (type === 'info') {
+        if (iconInfo) iconInfo.classList.remove('hidden');
+        if (iconContainer) iconContainer.className = "w-20 h-20 bg-mist/10 rounded-3xl flex items-center justify-center mx-auto mb-8 relative";
+        if (iconPing) iconPing.className = "absolute inset-0 bg-mist/20 rounded-3xl animate-ping opacity-20";
+        if (closeBtn) closeBtn.className = "w-full py-4 bg-mist hover:bg-mist-dark text-white rounded-2xl font-bold transition-all shadow-lg shadow-mist/20 active:scale-95 text-white/90";
+      } else {
+        if (iconError) iconError.classList.remove('hidden');
+        if (iconContainer) iconContainer.className = "w-20 h-20 bg-red-500/10 rounded-3xl flex items-center justify-center mx-auto mb-8 relative";
+        if (iconPing) iconPing.className = "absolute inset-0 bg-red-500/20 rounded-3xl animate-ping opacity-20";
+        if (closeBtn) closeBtn.className = "w-full py-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-bold transition-all shadow-lg shadow-red-500/20 active:scale-95";
+      }
+
+      modal?.classList.remove('hidden');
+      // Force reflow
+      modal?.offsetHeight;
+      modal?.classList.add('opacity-100');
+      card?.classList.remove('scale-90');
+      card?.classList.add('scale-100');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideModal() {
+      modal?.classList.remove('opacity-100');
+      card?.classList.remove('scale-100');
+      card?.classList.add('scale-90');
+      
+      setTimeout(() => {
+        modal?.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }, 300);
+    }
+
+    closeBtn.addEventListener('click', hideModal);
+    backdrop.addEventListener('click', hideModal);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal?.classList.contains('hidden')) {
+        hideModal();
+      }
+    });
+
+    // Listen for custom event
+    window.addEventListener('show-feedback-modal' as any, (e: CustomEvent) => {
+      showModal(e.detail.type || 'success', e.detail.title, e.detail.message);
+    });
+  }
+
+  setupModal();
+  document.addEventListener('astro:page-load', setupModal);
+</script>
+
+<style>
+  #modal-card {
+    will-change: transform, opacity;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--background) 100%);
+  }
+</style>

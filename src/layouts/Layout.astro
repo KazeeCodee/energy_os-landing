@@ -1,12 +1,13 @@
 ---
 import '../styles/global.css';
+import FeedbackModal from '../components/landing/FeedbackModal.astro';
 
 interface Props {
 	title: string;
 	description?: string;
 }
 
-const { title, description = "EnergyOS - Gestión Energética Inteligente para el MEM Argentino. Optimizamos tus costos y riesgos eléctricos con datos de CAMMESA." } = Astro.props;
+const { title, description = "EnergyOS - Gestión Energética Inteligente para el MEM Argentino. Optimizamos tus costos y riesgos eléctricos con datos oficiales del mercado." } = Astro.props;
 ---
 
 <!doctype html>
@@ -45,6 +46,7 @@ const { title, description = "EnergyOS - Gestión Energética Inteligente para e
 	</head>
 	<body class="selection:bg-forest selection:text-white">
 		<slot />
+    <FeedbackModal />
     
     <script>
       function initReveal() {
