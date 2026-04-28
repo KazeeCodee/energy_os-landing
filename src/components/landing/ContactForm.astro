@@ -37,10 +37,10 @@ const PLAN_OPTIONS = [
             Contacto
           </div>
           <h2 class="text-4xl md:text-5xl font-bold mb-8 tracking-tight leading-tight text-[var(--text-main)]">
-            Hablemos de su próximo paso en <span class="text-forest italic">eficiencia</span>.
+            Veamos cuánto estás <span class="text-forest italic">perdiendo</span>.
           </h2>
           <p class="text-mist text-lg mb-12 max-w-md leading-relaxed">
-            Nuestro equipo de expertos está listo para ayudarlo a optimizar su consumo y cumplir con la normativa vigente.
+            Dejanos tus datos y te mostramos en concreto dónde estás expuesto y cuánto se puede recuperar.
           </p>
           
           <div class="grid grid-cols-1 gap-4 sm:gap-6">
@@ -48,24 +48,24 @@ const PLAN_OPTIONS = [
               <div class="w-12 h-12 rounded-xl bg-forest/10 flex items-center justify-center text-forest mb-4 group-hover:scale-110 transition-transform">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
-              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Seguridad de Datos</h4>
-              <p class="text-mist text-sm leading-relaxed">Infraestructura blindada para el manejo de sus perfiles de carga y transacciones en el MEM.</p>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Tus datos, tuyos</h4>
+              <p class="text-mist text-sm leading-relaxed">Lo que cargás se queda confidencial. Tu estrategia no se comparte ni se mezcla.</p>
             </div>
 
             <div class="p-6 rounded-2xl bg-navy/5 border border-navy/10 hover:border-navy/20 transition-all group reveal-left" style="transition-delay: 0.4s;">
               <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy mb-4 group-hover:scale-110 transition-transform dark:text-forest-light dark:bg-forest/10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
               </div>
-              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Modularidad Total</h4>
-              <p class="text-mist text-sm leading-relaxed">Nuestra plataforma se adapta a su volumen operativo, desde un solo nodo hasta redes nacionales.</p>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">De una planta a una red</h4>
+              <p class="text-mist text-sm leading-relaxed">Mismo nivel de claridad, sin importar el tamaño. La complejidad la absorbemos nosotros.</p>
             </div>
 
             <div class="p-6 rounded-2xl bg-forest/5 border border-forest/10 hover:border-forest/20 transition-all group reveal-left" style="transition-delay: 0.5s;">
               <div class="w-12 h-12 rounded-xl bg-forest/20 flex items-center justify-center text-forest mb-4 group-hover:scale-110 transition-transform">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
-              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Soporte Estratégico</h4>
-              <p class="text-mist text-sm leading-relaxed">Acompañamiento experto en la interpretación de normativas y optimización de costos marginales.</p>
+              <h4 class="text-xl font-bold mb-2 text-[var(--text-main)]">Equipo que entiende</h4>
+              <p class="text-mist text-sm leading-relaxed">Hablás con gente que conoce el mercado. No con un help-desk genérico.</p>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ const PLAN_OPTIONS = [
                   name="message"
                   required
                   rows="4"
-                  placeholder="¿En qué podemos ayudarlo?"
+                  placeholder="Contanos en qué situación estás hoy."
                   class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)] resize-none"
                 ></textarea>
               </div>
@@ -164,7 +164,7 @@ const PLAN_OPTIONS = [
                 type="submit"
                 class="w-full py-4 bg-forest hover:bg-forest-dark text-white rounded-xl font-bold transition-all shadow-lg shadow-forest/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                <span id="contact-submit-label">Enviar Mensaje</span>
+                <span id="contact-submit-label">Quiero ver mi exposición</span>
                 <svg id="contact-submit-icon" class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 <svg id="contact-submit-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
               </button>
@@ -186,7 +186,7 @@ const PLAN_OPTIONS = [
                 function setLoading(loading: boolean) {
                   if (!submitBtn || !submitLabel || !submitIcon || !submitSpinner) return;
                   submitBtn.disabled = loading;
-                  submitLabel.textContent = loading ? "Enviando..." : "Enviar Mensaje";
+                  submitLabel.textContent = loading ? "Enviando..." : "Quiero ver mi exposición";
                   submitIcon.classList.toggle("hidden", loading);
                   submitSpinner.classList.toggle("hidden", !loading);
                 }

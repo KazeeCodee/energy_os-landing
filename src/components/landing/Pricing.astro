@@ -2,13 +2,13 @@
 import { Image } from "astro:assets";
 
 const features = [
-  "Monitorización Automática de Mercado",
-  "Alertas de Cumplimiento Ley 27.191",
-  "Benchmark MATER en tiempo real",
-  "Simulador de Costos y Proyección del Sector",
-  "Dashboard de Inteligencia Multi-planta",
-  "Exportación de Datos Operativos RAW",
-  "Soporte Premium 24/7"
+  "Cumplimiento en vivo, sin sorpresas",
+  "Alertas antes de que el problema sea plata",
+  "Benchmark real de lo que paga el mercado",
+  "Proyección de costos para tu próximo trimestre",
+  "Una sola pantalla para toda la operación",
+  "Tus datos, exportables cuando quieras",
+  "Soporte directo, sin filtros"
 ];
 
 // Cálculo de precios
@@ -24,10 +24,10 @@ const monthlyPrice = Math.round(( (annualPrice / 12) + (annualPrice * 0.01) ) * 
   <div class="container mx-auto px-6">
     <div class="text-center max-w-3xl mx-auto mb-16 reveal">
       <h2 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-navy dark:text-white">
-        Un solo plan, <span class="inline-block px-1 bg-gradient-to-r from-forest to-cyan-400 bg-clip-text text-transparent italic">toda la potencia</span>
+        Un solo plan. <span class="inline-block px-1 bg-gradient-to-r from-forest to-cyan-400 bg-clip-text text-transparent italic">Todo claro.</span>
       </h2>
       <p class="text-mist text-lg mb-12">
-        Sin complicaciones. Acceso ilimitado a todas nuestras herramientas de inteligencia energética con una estructura de precios transparente.
+        Sin letra chica. Sin niveles. Acceso completo a la capa que te saca de operar a ciegas.
       </p>
 
       <!-- Toggle Switch -->
@@ -59,7 +59,7 @@ const monthlyPrice = Math.round(( (annualPrice / 12) + (annualPrice * 0.01) ) * 
             <div class="mb-8">
               <h3 class="text-2xl font-bold mb-4">Plan Pro Integral</h3>
               <p class="text-mist leading-relaxed">
-                Diseñado para Grandes Usuarios energéticos que buscan optimizar cada MWh y mitigar riesgos legales con precisión quirúrgica.
+                Para empresas que se cansaron de descubrir los problemas tarde y de pagar de más sin saberlo.
               </p>
             </div>
 
@@ -73,14 +73,14 @@ const monthlyPrice = Math.round(( (annualPrice / 12) + (annualPrice * 0.01) ) * 
             </div>
 
             <a href="#contacto" data-plan="pro-integral" class="cta-plan-trigger block w-full py-5 bg-forest hover:bg-forest-dark text-white rounded-2xl font-bold text-center text-lg transition-all shadow-xl shadow-forest/20 hover:scale-[1.02] active:scale-[0.98]">
-              Hablar con ventas
+              Ver cómo está mi operación hoy
             </a>
-            <p class="text-[10px] text-center text-mist mt-6 uppercase tracking-widest font-semibold">Sin contratos a largo plazo • Cancela cuando quieras</p>
+            <p class="text-[10px] text-center text-mist mt-6 uppercase tracking-widest font-semibold">Sin compromiso largo • Cortás cuando quieras</p>
           </div>
 
           <!-- Right: Features -->
           <div class="p-10 md:p-14 bg-navy/5 dark:bg-white/[0.02]">
-            <h4 class="font-bold text-sm uppercase tracking-widest text-navy dark:text-white/80 mb-8">¿Qué incluye?</h4>
+            <h4 class="font-bold text-sm uppercase tracking-widest text-navy dark:text-white/80 mb-8">Qué te llevás</h4>
             <ul class="space-y-5">
               {features.map(feature => (
                 <li class="flex items-start gap-4 group">
@@ -103,14 +103,14 @@ const monthlyPrice = Math.round(( (annualPrice / 12) + (annualPrice * 0.01) ) * 
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         
         <div class="relative z-10">
-          <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase mb-4 tracking-wider border border-white/20">Portal Comercializadores</div>
-          <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white">¿Eres Partner Estratégico?</h3>
+          <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase mb-4 tracking-wider border border-white/20">Partners</div>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white">¿Comercializás energía?</h3>
           <p class="text-white/70 max-w-xl">
-             Ofrecemos soluciones White-Label para comercializadores que desean potenciar su marca con nuestra tecnología.
+             Llevá la claridad de EnergyOS a tu cartera bajo tu propia marca. Misma capa, tu logo.
           </p>
         </div>
         <div class="relative z-10 shrink-0">
-          <a href="#contacto" data-plan="white-label" class="cta-plan-trigger inline-block px-10 py-4 bg-white text-navy rounded-2xl font-bold hover:bg-forest hover:text-white transition-all shadow-xl">Contactar con Alianzas</a>
+          <a href="#contacto" data-plan="white-label" class="cta-plan-trigger inline-block px-10 py-4 bg-white text-navy rounded-2xl font-bold hover:bg-forest hover:text-white transition-all shadow-xl">Hablar de alianza</a>
         </div>
       </div>
     </div>
