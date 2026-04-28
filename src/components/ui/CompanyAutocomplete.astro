@@ -1,0 +1,359 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+}
+
+const {
+  id,
+  name,
+  placeholder = "Empresa S.A.",
+  required = false,
+} = Astro.props;
+---
+
+<div class="company-autocomplete relative w-full" id={`container-${id}`}>
+  <div class="relative">
+    <input
+      type="text"
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      autocomplete="organization"
+      required={required}
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls={`${id}-menu`}
+      class="company-input w-full px-5 py-4 pr-12 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+    />
+    <span class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-muted)]">
+      <svg id={`${id}-icon-search`} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <svg id={`${id}-icon-loading`} class="hidden animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+        <path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
+    </span>
+  </div>
+
+  <ul
+    id={`${id}-menu`}
+    role="listbox"
+    class="company-menu absolute z-[60] left-0 right-0 mt-2 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl opacity-0 translate-y-2 scale-95 pointer-events-none transition-all duration-200 origin-top backdrop-blur-xl"
+    tabindex="-1"
+  ></ul>
+
+  <input type="hidden" id={`${id}-nemo`} name={`${name}_nemo`} />
+  <input type="hidden" id={`${id}-tipo`} name={`${name}_tipo_agente`} />
+  <input type="hidden" id={`${id}-agrupacion`} name={`${name}_agrupacion`} />
+</div>
+
+<style>
+  .company-menu {
+    max-height: 360px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .company-menu::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .company-menu::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .company-menu::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+  }
+
+  .company-autocomplete.open .company-menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .company-autocomplete.open .company-input {
+    border-color: var(--forest);
+    box-shadow: 0 0 0 4px rgba(21, 202, 202, 0.1);
+  }
+
+  .company-option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 18px;
+    margin: 0;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--text-main);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .company-option:hover,
+  .company-option[aria-selected="true"] {
+    background-color: rgba(21, 202, 202, 0.14);
+    border-color: rgba(21, 202, 202, 0.35);
+    color: var(--forest);
+    transform: translateX(2px);
+    box-shadow: 0 6px 18px -8px rgba(21, 202, 202, 0.55);
+  }
+
+  .company-option:active {
+    background-color: rgba(21, 202, 202, 0.22);
+    transform: translateX(2px) scale(0.99);
+  }
+
+  .company-option:hover .company-option-meta,
+  .company-option[aria-selected="true"] .company-option-meta {
+    color: var(--forest);
+    opacity: 0.85;
+  }
+
+  .company-option-label {
+    font-weight: 500;
+  }
+
+  .company-option-meta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .company-empty,
+  .company-error {
+    padding: 16px 18px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .company-error {
+    color: var(--color-danger);
+  }
+</style>
+
+<script>
+  import { supabase } from "../../db/supabase.js";
+
+  type AgenteRow = {
+    nemo: string;
+    descripcion: string;
+    agrupacion: string | null;
+    tipo_agente: string | null;
+  };
+
+  function setupCompanyAutocompletes() {
+    const containers = document.querySelectorAll<HTMLDivElement>(".company-autocomplete");
+
+    containers.forEach((container) => {
+      const input = container.querySelector<HTMLInputElement>(".company-input");
+      const menu = container.querySelector<HTMLUListElement>(".company-menu");
+      const nemoInput = container.querySelector<HTMLInputElement>('input[type="hidden"][id$="-nemo"]');
+      const tipoInput = container.querySelector<HTMLInputElement>('input[type="hidden"][id$="-tipo"]');
+      const agrupacionInput = container.querySelector<HTMLInputElement>('input[type="hidden"][id$="-agrupacion"]');
+      const iconSearch = container.querySelector<HTMLElement>('[id$="-icon-search"]');
+      const iconLoading = container.querySelector<HTMLElement>('[id$="-icon-loading"]');
+
+      if (!input || !menu) return;
+
+      let debounceId: number | null = null;
+      let activeIndex = -1;
+      let currentRows: AgenteRow[] = [];
+
+      function setLoading(loading: boolean) {
+        iconSearch?.classList.toggle("hidden", loading);
+        iconLoading?.classList.toggle("hidden", !loading);
+      }
+
+      function openMenu() {
+        container.classList.add("open");
+        input?.setAttribute("aria-expanded", "true");
+      }
+
+      function closeMenu() {
+        container.classList.remove("open");
+        input?.setAttribute("aria-expanded", "false");
+        activeIndex = -1;
+      }
+
+      function clearSelection() {
+        if (nemoInput) nemoInput.value = "";
+        if (tipoInput) tipoInput.value = "";
+        if (agrupacionInput) agrupacionInput.value = "";
+        container.dispatchEvent(
+          new CustomEvent("company-cleared", { bubbles: true })
+        );
+      }
+
+      function renderEmpty(message: string) {
+        if (!menu) return;
+        menu.innerHTML = `<li class="company-empty">${message}</li>`;
+        openMenu();
+      }
+
+      function renderError(message: string) {
+        if (!menu) return;
+        menu.innerHTML = `<li class="company-error">${message}</li>`;
+        openMenu();
+      }
+
+      function renderRows(rows: AgenteRow[]) {
+        if (!menu) return;
+        currentRows = rows;
+        if (rows.length === 0) {
+          renderEmpty("Sin coincidencias. Podés escribir tu razón social manualmente.");
+          return;
+        }
+        menu.innerHTML = rows
+          .map((row, index) => {
+            const meta = [row.tipo_agente, row.agrupacion]
+              .filter(Boolean)
+              .join(" · ");
+            return `
+              <li class="company-option" role="option" data-index="${index}" aria-selected="false">
+                <span class="company-option-label">${escapeHtml(row.descripcion)} <span class="text-mist">· ${escapeHtml(row.nemo)}</span></span>
+                ${meta ? `<span class="company-option-meta">${escapeHtml(meta)}</span>` : ""}
+              </li>
+            `;
+          })
+          .join("");
+        openMenu();
+      }
+
+      function escapeHtml(value: string): string {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      async function search(query: string) {
+        setLoading(true);
+        try {
+          const { data, error } = await supabase.rpc("search_cammesa_agentes", {
+            p_q: query,
+            p_limit: 12,
+          });
+          if (error) {
+            renderError("No pudimos cargar empresas. Probá de nuevo.");
+            return;
+          }
+          renderRows((data as AgenteRow[]) ?? []);
+        } catch {
+          renderError("No pudimos cargar empresas. Probá de nuevo.");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function selectRow(row: AgenteRow) {
+        if (!input) return;
+        input.value = row.descripcion;
+        if (nemoInput) nemoInput.value = row.nemo;
+        if (tipoInput) tipoInput.value = row.tipo_agente ?? "";
+        if (agrupacionInput) agrupacionInput.value = row.agrupacion ?? "";
+        closeMenu();
+        container.dispatchEvent(
+          new CustomEvent("company-selected", {
+            bubbles: true,
+            detail: row,
+          })
+        );
+      }
+
+      function highlight(index: number) {
+        const items = menu?.querySelectorAll<HTMLLIElement>("li.company-option");
+        if (!items) return;
+        items.forEach((item, idx) => {
+          item.setAttribute("aria-selected", idx === index ? "true" : "false");
+          if (idx === index) item.scrollIntoView({ block: "nearest" });
+        });
+      }
+
+      input.addEventListener("input", () => {
+        clearSelection();
+        const value = input.value.trim();
+        if (debounceId) window.clearTimeout(debounceId);
+        if (value.length === 0) {
+          closeMenu();
+          return;
+        }
+        debounceId = window.setTimeout(() => {
+          void search(value);
+        }, 200);
+      });
+
+      input.addEventListener("focus", () => {
+        const value = input.value.trim();
+        if (value.length > 0 && currentRows.length > 0) openMenu();
+        else if (value.length > 0) void search(value);
+      });
+
+      input.addEventListener("keydown", (event) => {
+        if (!container.classList.contains("open") && event.key !== "Escape") {
+          if (event.key === "ArrowDown" && input.value.trim()) {
+            event.preventDefault();
+            void search(input.value.trim());
+            return;
+          }
+        }
+
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          activeIndex = Math.min(activeIndex + 1, currentRows.length - 1);
+          highlight(activeIndex);
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          activeIndex = Math.max(activeIndex - 1, 0);
+          highlight(activeIndex);
+        } else if (event.key === "Enter") {
+          if (activeIndex >= 0 && currentRows[activeIndex]) {
+            event.preventDefault();
+            selectRow(currentRows[activeIndex]);
+          }
+        } else if (event.key === "Escape") {
+          closeMenu();
+        }
+      });
+
+      menu.addEventListener("mousedown", (event) => {
+        const target = event.target as HTMLElement;
+        const li = target.closest<HTMLLIElement>("li.company-option");
+        if (!li) return;
+        event.preventDefault();
+        const idx = Number(li.dataset.index);
+        if (Number.isFinite(idx) && currentRows[idx]) {
+          selectRow(currentRows[idx]);
+        }
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!container.contains(event.target as Node)) closeMenu();
+      });
+    });
+  }
+
+  setupCompanyAutocompletes();
+  document.addEventListener("astro:page-load", setupCompanyAutocompletes);
+</script>

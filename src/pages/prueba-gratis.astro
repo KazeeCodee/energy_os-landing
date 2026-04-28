@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CustomSelect from "../components/ui/CustomSelect.astro";
+import CompanyAutocomplete from "../components/ui/CompanyAutocomplete.astro";
 import { Image } from "astro:assets";
 import logoFull from "../assets/logo.png";
 
@@ -208,15 +209,8 @@ const ROL_OPTIONS = [
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label for="t-company" class="text-sm font-semibold text-[var(--text-main)] ml-1">Razón social *</label>
-              <input
-                type="text"
-                id="t-company"
-                name="company"
-                required
-                autocomplete="organization"
-                placeholder="Empresa S.A."
-                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
-              />
+              <CompanyAutocomplete id="t-company" name="company" placeholder="Buscá tu empresa…" required />
+              <p class="text-xs text-mist ml-1">Si no la encontrás, escribila manualmente.</p>
             </div>
             <div class="space-y-2">
               <label for="t-cuit" class="text-sm font-semibold text-[var(--text-main)] ml-1">CUIT</label>
@@ -225,8 +219,11 @@ const ROL_OPTIONS = [
                 id="t-cuit"
                 name="cuit"
                 placeholder="30-12345678-9"
+                inputmode="numeric"
+                maxlength="13"
                 class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
               />
+              <p class="text-xs text-mist ml-1">11 dígitos. Opcional.</p>
             </div>
           </div>
 
@@ -472,6 +469,61 @@ const ROL_OPTIONS = [
       events.forEach((ev) => el.addEventListener(ev, () => clearError(name)));
     });
 
+    const TIPO_AGENTE_TO_TIPO_EMPRESA: Record<string, string> = {
+      "Gran Usuario Mayor (GUMA)": "gran_usuario",
+      "Gran Usuario Menor (GUME)": "gran_usuario",
+      "Gran Usuario Particular (GUPA)": "gran_usuario",
+      "Autogenerador": "gran_usuario",
+      "Cogenerador": "gran_usuario",
+      "GRAN DEMANDA EN DISTRIBUIDOR": "gudi",
+      "Distribuidor": "gudi",
+      "DISTRIBUIDOR MENOR (DIME)": "gudi",
+      "Comercializador de Demanda": "comercializador",
+      "Comercializador de Generacion": "comercializador",
+    };
+
+    function applyTipoEmpresa(tipoEmpresa: string) {
+      const hidden = form?.querySelector<HTMLSelectElement>('select[name="tipo_empresa"]');
+      if (!hidden) return;
+      const valid = Array.from(hidden.options).some((o) => o.value === tipoEmpresa);
+      hidden.value = valid ? tipoEmpresa : "otro";
+      hidden.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    const companyContainer = document.getElementById("container-t-company");
+    companyContainer?.addEventListener("company-selected", (event) => {
+      const detail = (event as CustomEvent).detail as {
+        tipo_agente?: string | null;
+      } | null;
+      const tipoAgente = detail?.tipo_agente ?? "";
+      const mapped = TIPO_AGENTE_TO_TIPO_EMPRESA[tipoAgente] ?? "otro";
+      applyTipoEmpresa(mapped);
+    });
+
+    const cuitInput = document.getElementById("t-cuit") as HTMLInputElement | null;
+
+    function formatCuit(value: string): string {
+      const digits = value.replace(/\D/g, "").slice(0, 11);
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 10) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+      return `${digits.slice(0, 2)}-${digits.slice(2, 10)}-${digits.slice(10)}`;
+    }
+
+    function isCuitValid(value: string): boolean {
+      const digits = value.replace(/\D/g, "");
+      return digits.length === 0 || digits.length === 11;
+    }
+
+    cuitInput?.addEventListener("input", () => {
+      if (!cuitInput) return;
+      const formatted = formatCuit(cuitInput.value);
+      if (formatted !== cuitInput.value) cuitInput.value = formatted;
+      cuitInput.classList.remove("field-error");
+    });
+
+    cuitInput?.setAttribute("inputmode", "numeric");
+    cuitInput?.setAttribute("maxlength", "13");
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearAllErrors();
@@ -524,6 +576,22 @@ const ROL_OPTIONS = [
         return;
       }
 
+      const cuitRaw = String(data.get("cuit") || "").trim();
+      if (cuitRaw && !isCuitValid(cuitRaw)) {
+        cuitInput?.classList.add("field-error");
+        cuitInput?.scrollIntoView({ behavior: "smooth", block: "center" });
+        window.dispatchEvent(
+          new CustomEvent("show-feedback-modal", {
+            detail: {
+              type: "error",
+              title: "CUIT inválido",
+              message: "El CUIT debe tener 11 dígitos. Ej: 30-12345678-9. Si no lo conocés, dejalo vacío.",
+            },
+          }) as any
+        );
+        return;
+      }
+
       setLoading(true);
       const { error } = await supabase.rpc("create_trial_account", {
         p_email: email,
@@ -537,20 +605,28 @@ const ROL_OPTIONS = [
         p_demanda_kw: String(data.get("demanda_kw") || "").trim() || null,
         p_rol: String(data.get("rol") || "").trim() || null,
         p_telefono: String(data.get("telefono") || "").trim() || null,
+        p_cammesa_nemo: String(data.get("company_nemo") || "").trim() || null,
       });
       setLoading(false);
 
       if (error) {
         console.error("Trial signup error:", error);
-        const msg =
-          error.code === "23505"
+        const isCuitError =
+          error.code === "23514" && (error.message?.includes("cuit") || error.details?.includes("cuit_check"));
+        const msg = isCuitError
+          ? "El CUIT debe tener 11 dígitos. Ej: 30-12345678-9. Si no lo conocés, dejalo vacío."
+          : error.code === "23505"
             ? "Ya existe una cuenta con ese email."
             : error.message?.includes("términos")
               ? "Tenés que aceptar los términos para continuar."
               : "No pudimos crear la cuenta. Intentá nuevamente.";
+        if (isCuitError) {
+          cuitInput?.classList.add("field-error");
+          cuitInput?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
         window.dispatchEvent(
           new CustomEvent("show-feedback-modal", {
-            detail: { type: "error", title: "Error de registro", message: msg },
+            detail: { type: "error", title: isCuitError ? "CUIT inválido" : "Error de registro", message: msg },
           }) as any
         );
         return;
