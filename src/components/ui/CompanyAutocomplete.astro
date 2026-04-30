@@ -44,7 +44,7 @@ const {
   <ul
     id={`${id}-menu`}
     role="listbox"
-    class="company-menu absolute z-[60] left-0 right-0 mt-2 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl opacity-0 translate-y-2 scale-95 pointer-events-none transition-all duration-200 origin-top backdrop-blur-xl"
+    class="company-menu absolute z-[60] left-0 right-0 mt-2 py-2 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl opacity-0 translate-y-2 scale-95 pointer-events-none transition-all duration-200 origin-top overflow-hidden backdrop-blur-xl"
     tabindex="-1"
   ></ul>
 
@@ -53,14 +53,11 @@ const {
   <input type="hidden" id={`${id}-agrupacion`} name={`${name}_agrupacion`} />
 </div>
 
-<style>
+<style is:global>
   .company-menu {
-    max-height: 360px;
+    max-height: 280px;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
+    background-color: var(--surface);
   }
 
   .company-menu::-webkit-scrollbar {
@@ -88,67 +85,54 @@ const {
   }
 
   .company-option {
-    position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 14px 18px;
-    margin: 0;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    background-color: transparent;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
     cursor: pointer;
     color: var(--text-main);
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     line-height: 1.4;
-    transition:
-      background-color 0.18s ease,
-      color 0.18s ease,
-      border-color 0.18s ease,
-      transform 0.18s ease,
-      box-shadow 0.18s ease;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
   }
 
   .company-option:hover,
   .company-option[aria-selected="true"] {
-    background-color: rgba(21, 202, 202, 0.14);
-    border-color: rgba(21, 202, 202, 0.35);
+    background-color: var(--surface-hover);
     color: var(--forest);
-    transform: translateX(2px);
-    box-shadow: 0 6px 18px -8px rgba(21, 202, 202, 0.55);
+    border-left-color: var(--forest);
+    padding-left: 1.5rem;
   }
 
   .company-option:active {
-    background-color: rgba(21, 202, 202, 0.22);
-    transform: translateX(2px) scale(0.99);
+    background-color: rgba(21, 202, 202, 0.1);
   }
 
-  .company-option:hover .company-option-meta,
-  .company-option[aria-selected="true"] .company-option-meta {
-    color: var(--forest);
-    opacity: 0.85;
-  }
-
-  .company-option-label {
-    font-weight: 500;
-  }
-
-  .company-option-meta {
-    font-size: 0.7rem;
+  .company-option-icon {
+    flex-shrink: 0;
     color: var(--text-muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .company-option:hover .company-option-icon,
+  .company-option[aria-selected="true"] .company-option-icon {
+    color: var(--forest);
   }
 
   .company-empty,
   .company-error {
-    padding: 16px 18px;
-    font-size: 0.85rem;
+    padding: 1.25rem;
+    font-size: 0.875rem;
     color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
   }
 
   .company-error {
     color: var(--color-danger);
+    background-color: rgba(239, 68, 68, 0.05);
   }
 </style>
 
@@ -225,17 +209,15 @@ const {
           return;
         }
         menu.innerHTML = rows
-          .map((row, index) => {
-            const meta = [row.tipo_agente, row.agrupacion]
-              .filter(Boolean)
-              .join(" · ");
-            return `
+          .map((row, index) => `
               <li class="company-option" role="option" data-index="${index}" aria-selected="false">
-                <span class="company-option-label">${escapeHtml(row.descripcion)} <span class="text-mist">· ${escapeHtml(row.nemo)}</span></span>
-                ${meta ? `<span class="company-option-meta">${escapeHtml(meta)}</span>` : ""}
+                <svg class="company-option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                <span class="truncate">${escapeHtml(row.descripcion)}</span>
               </li>
-            `;
-          })
+            `)
           .join("");
         openMenu();
       }
@@ -253,7 +235,8 @@ const {
         try {
           const { data, error } = await supabase.rpc("search_cammesa_agentes", {
             p_q: query,
-            p_limit: 12,
+            p_limit: 8,
+            p_tipos: null,
           });
           if (error) {
             renderError("No pudimos cargar empresas. Probá de nuevo.");
@@ -295,10 +278,6 @@ const {
         clearSelection();
         const value = input.value.trim();
         if (debounceId) window.clearTimeout(debounceId);
-        if (value.length === 0) {
-          closeMenu();
-          return;
-        }
         debounceId = window.setTimeout(() => {
           void search(value);
         }, 200);
@@ -306,8 +285,11 @@ const {
 
       input.addEventListener("focus", () => {
         const value = input.value.trim();
-        if (value.length > 0 && currentRows.length > 0) openMenu();
-        else if (value.length > 0) void search(value);
+        if (currentRows.length > 0) {
+          openMenu();
+          return;
+        }
+        void search(value);
       });
 
       input.addEventListener("keydown", (event) => {

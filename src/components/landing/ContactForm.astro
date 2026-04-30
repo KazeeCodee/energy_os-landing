@@ -16,12 +16,6 @@ const ROL_OPTIONS = [
   { value: "otro", label: "Otro" },
 ];
 
-const PLAN_OPTIONS = [
-  { value: "demo", label: "Demo general" },
-  { value: "pro-integral", label: "Plan Pro Integral" },
-  { value: "white-label", label: "Portal Comercializadores (White-Label)" },
-  { value: "indeciso", label: "Aún no estoy seguro" },
-];
 ---
 <section id="contacto" class="py-24 relative overflow-hidden">
   <!-- Background effects -->
@@ -135,15 +129,6 @@ const PLAN_OPTIONS = [
                 </div>
               </div>
 
-              <div class="space-y-2">
-                <label for="plan_interes" class="text-sm font-semibold text-[var(--text-main)] ml-1">Plan de interés</label>
-                <CustomSelect
-                  id="plan_interes"
-                  name="plan_interes"
-                  options={PLAN_OPTIONS}
-                  placeholder="Seleccionar..."
-                />
-              </div>
 
               <div class="space-y-2">
                 <label for="message" class="text-sm font-semibold text-[var(--text-main)] ml-1">Mensaje *</label>
@@ -242,17 +227,6 @@ const PLAN_OPTIONS = [
                   el.addEventListener("input", () => clearError(n));
                 });
 
-                document.querySelectorAll<HTMLAnchorElement>(".cta-plan-trigger").forEach((trigger) => {
-                  trigger.addEventListener("click", () => {
-                    const plan = trigger.dataset.plan;
-                    if (!plan) return;
-                    const planSelect = document.getElementById("plan_interes") as HTMLSelectElement | null;
-                    if (planSelect && Array.from(planSelect.options).some((o) => o.value === plan)) {
-                      planSelect.value = plan;
-                      planSelect.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                  });
-                });
 
                 form.addEventListener("submit", async (e) => {
                   e.preventDefault();
@@ -266,7 +240,6 @@ const PLAN_OPTIONS = [
                     message: String(data.get("message") || "").trim(),
                     tipo_empresa: String(data.get("tipo_empresa") || "").trim() || null,
                     rol: String(data.get("rol") || "").trim() || null,
-                    plan_interes: String(data.get("plan_interes") || "").trim() || null,
                   };
 
                   clearAllErrors();

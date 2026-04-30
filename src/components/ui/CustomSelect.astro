@@ -32,7 +32,7 @@ const { id, name, options, placeholder = "Seleccionar...", required = false } = 
     aria-expanded="false"
     id={`${id}-trigger`}
   >
-    <span class="placeholder transition-colors text-[var(--text-muted)]">{placeholder}</span>
+    <span class="placeholder transition-colors text-[var(--text-muted)] flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-left pr-4 min-w-0" title={placeholder}>{placeholder}</span>
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
       width="20" 
@@ -57,9 +57,10 @@ const { id, name, options, placeholder = "Seleccionar...", required = false } = 
   >
     {options.map(option => (
       <li
-        class="block px-4 py-3 text-sm text-[var(--text-main)] hover:bg-forest/10 hover:text-forest cursor-pointer transition-colors active:bg-forest/20"
+        class="block px-5 py-3 text-[0.9375rem] font-medium text-[var(--text-main)] hover:bg-[var(--surface-hover)] hover:text-forest cursor-pointer transition-all active:bg-forest/10 border-l-[3px] border-transparent hover:border-forest hover:pl-6"
         role="option"
         data-value={option.value}
+        title={option.label}
       >
         {option.label}
       </li>
@@ -149,6 +150,7 @@ const { id, name, options, placeholder = "Seleccionar...", required = false } = 
           if (value !== null && label) {
             hiddenSelect.value = value;
             placeholderText.textContent = label;
+            placeholderText.title = label;
             placeholderText.classList.add('selected-text');
             placeholderText.classList.remove('text-[var(--text-muted)]');
             
@@ -168,9 +170,11 @@ const { id, name, options, placeholder = "Seleccionar...", required = false } = 
         const selectedOption = Array.from(hiddenSelect.options).find(o => o.value === hiddenSelect.value);
         if (selectedOption && selectedOption.value !== "") {
           placeholderText.textContent = selectedOption.textContent;
+          placeholderText.title = selectedOption.textContent || '';
           placeholderText.classList.add('selected-text');
         } else {
           placeholderText.textContent = defaultPlaceholder;
+          placeholderText.title = defaultPlaceholder || '';
           placeholderText.classList.remove('selected-text');
         }
       });

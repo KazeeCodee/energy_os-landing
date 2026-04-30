@@ -149,15 +149,7 @@ const ROL_OPTIONS = [
             </li>
           </ul>
 
-          <div id="t-pwd-warning" class="hidden p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-sm">
-            <div class="flex items-start gap-3">
-              <svg class="shrink-0 mt-0.5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-              <div>
-                <p class="font-bold mb-1">Guardá tu contraseña en un lugar seguro</p>
-                <p class="leading-relaxed">No vamos a poder recuperarla por vos. Copiala y guardala en un gestor de contraseñas o anotala antes de continuar.</p>
-              </div>
-            </div>
-          </div>
+
         </section>
 
         <!-- Sección: Persona -->
@@ -206,25 +198,10 @@ const ROL_OPTIONS = [
             <p class="text-mist text-sm">Para preparar tu cuenta con tus datos.</p>
           </header>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="space-y-2">
-              <label for="t-company" class="text-sm font-semibold text-[var(--text-main)] ml-1">Razón social *</label>
-              <CompanyAutocomplete id="t-company" name="company" placeholder="Buscá tu empresa…" required />
-              <p class="text-xs text-mist ml-1">Si no la encontrás, escribila manualmente.</p>
-            </div>
-            <div class="space-y-2">
-              <label for="t-cuit" class="text-sm font-semibold text-[var(--text-main)] ml-1">CUIT</label>
-              <input
-                type="text"
-                id="t-cuit"
-                name="cuit"
-                placeholder="30-12345678-9"
-                inputmode="numeric"
-                maxlength="13"
-                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
-              />
-              <p class="text-xs text-mist ml-1">11 dígitos. Opcional.</p>
-            </div>
+          <div class="space-y-2">
+            <label for="t-company" class="text-sm font-semibold text-[var(--text-main)] ml-1">Razón social *</label>
+            <CompanyAutocomplete id="t-company" name="company" placeholder="Buscá tu empresa…" required />
+            <p class="text-xs text-mist ml-1">Si no la encontrás, escribila manualmente.</p>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -238,16 +215,31 @@ const ROL_OPTIONS = [
             </div>
           </div>
 
-          <div class="space-y-2">
-            <label for="t-demanda" class="text-sm font-semibold text-[var(--text-main)] ml-1">Demanda eléctrica estimada</label>
-            <input
-              type="text"
-              id="t-demanda"
-              name="demanda_kw"
-              placeholder="Ej: 800 kW, 1.5 MW, no estoy seguro"
-              class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
-            />
-            <p class="text-xs text-mist ml-1">Texto libre. Si no la conocés, dejá en blanco.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label for="t-cuit" class="text-sm font-semibold text-[var(--text-main)] ml-1">CUIT</label>
+              <input
+                type="text"
+                id="t-cuit"
+                name="cuit"
+                placeholder="30-12345678-9"
+                inputmode="numeric"
+                maxlength="13"
+                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+              />
+              <p class="text-xs text-mist ml-1">11 dígitos. Opcional.</p>
+            </div>
+            <div class="space-y-2">
+              <label for="t-demanda" class="text-sm font-semibold text-[var(--text-main)] ml-1">Demanda eléctrica estimada</label>
+              <input
+                type="text"
+                id="t-demanda"
+                name="demanda_kw"
+                placeholder="Ej: 800 kW, 1.5 MW"
+                class="w-full px-5 py-4 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition-all text-[var(--text-main)]"
+              />
+              <p class="text-xs text-mist ml-1">Texto libre. Opcional.</p>
+            </div>
           </div>
         </section>
 
@@ -332,7 +324,6 @@ const ROL_OPTIONS = [
     const generateBtn = document.getElementById("t-generate") as HTMLButtonElement | null;
     const copyBtn = document.getElementById("t-copy") as HTMLButtonElement | null;
     const copyLabel = document.getElementById("t-copy-label");
-    const warning = document.getElementById("t-pwd-warning");
     const submitBtn = document.getElementById("t-submit") as HTMLButtonElement | null;
     const submitLabel = document.getElementById("t-submit-label");
     const submitSpinner = document.getElementById("t-submit-spinner");
@@ -372,7 +363,6 @@ const ROL_OPTIONS = [
       updateChecklist();
       if (pwdInput.value && copyBtn) copyBtn.removeAttribute("disabled");
       else copyBtn?.setAttribute("disabled", "true");
-      warning?.classList.toggle("hidden", !pwdInput.value);
     });
 
     toggleVisBtn?.addEventListener("click", () => {
@@ -390,7 +380,6 @@ const ROL_OPTIONS = [
       eyeShow?.classList.add("hidden");
       eyeHide?.classList.remove("hidden");
       copyBtn?.removeAttribute("disabled");
-      warning?.classList.remove("hidden");
       updateChecklist();
     });
 
@@ -593,40 +582,76 @@ const ROL_OPTIONS = [
       }
 
       setLoading(true);
-      const { error } = await supabase.rpc("create_trial_account", {
-        p_email: email,
-        p_password: password,
-        p_full_name: fullName,
+      const cuitDigits = String(data.get("cuit") || "").replace(/\D/g, "");
+
+      const { data: avail, error: availError } = await supabase.rpc("is_company_trial_available", {
         p_company: company,
-        p_tipo_empresa: tipoEmpresa,
-        p_accepts_terms: acceptsTerms,
-        p_cuit: String(data.get("cuit") || "").trim() || null,
-        p_industria: String(data.get("industria") || "").trim() || null,
-        p_demanda_kw: String(data.get("demanda_kw") || "").trim() || null,
-        p_rol: String(data.get("rol") || "").trim() || null,
-        p_telefono: String(data.get("telefono") || "").trim() || null,
-        p_cammesa_nemo: String(data.get("company_nemo") || "").trim() || null,
+        p_cuit: cuitDigits || null,
+      });
+      if (availError) {
+        console.error("Trial availability check failed:", availError);
+      } else if (avail === false) {
+        setLoading(false);
+        markError("company");
+        scrollToField("company");
+        window.dispatchEvent(
+          new CustomEvent("show-feedback-modal", {
+            detail: {
+              type: "error",
+              title: "Empresa ya registrada",
+              message: "Ya existe una prueba activa para esta empresa. Cada empresa puede tener una sola cuenta de prueba. Contactanos si necesitás acceso adicional.",
+            },
+          }) as any
+        );
+        return;
+      }
+
+      const crmUrl = (import.meta.env.PUBLIC_CRM_URL as string | undefined) ?? window.location.origin;
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${crmUrl.replace(/\/$/, "")}/acceso?confirmed=1`,
+          data: {
+            is_trial: true,
+            full_name: fullName,
+            company,
+            tipo_empresa: tipoEmpresa,
+            rol: String(data.get("rol") || "").trim() || null,
+            cuit: cuitDigits || null,
+            industria: String(data.get("industria") || "").trim() || null,
+            demanda_kw: String(data.get("demanda_kw") || "").trim() || null,
+            telefono: String(data.get("telefono") || "").trim() || null,
+            cammesa_nemo: String(data.get("company_nemo") || "").trim() || null,
+            accepts_terms: acceptsTerms,
+          },
+        },
       });
       setLoading(false);
 
       if (error) {
         console.error("Trial signup error:", error);
-        const isCuitError =
-          error.code === "23514" && (error.message?.includes("cuit") || error.details?.includes("cuit_check"));
-        const msg = isCuitError
-          ? "El CUIT debe tener 11 dígitos. Ej: 30-12345678-9. Si no lo conocés, dejalo vacío."
-          : error.code === "23505"
+        const code = (error as any).code as string | undefined;
+        const status = (error as any).status as number | undefined;
+        const message = error.message || "";
+        const isCompanyTaken = /user_profiles_company_key_active|company_key/i.test(message);
+        const isDuplicate =
+          code === "user_already_exists" ||
+          status === 422 && /already|registered|exists/i.test(message);
+        const isWeakPassword = code === "weak_password" || /password/i.test(message) && /weak|short|character/i.test(message);
+        const isRateLimit = status === 429 || /rate limit/i.test(message);
+        const msg = isCompanyTaken
+          ? "Ya existe una prueba activa para esta empresa. Cada empresa puede tener una sola cuenta de prueba."
+          : isDuplicate
             ? "Ya existe una cuenta con ese email."
-            : error.message?.includes("términos")
-              ? "Tenés que aceptar los términos para continuar."
-              : "No pudimos crear la cuenta. Intentá nuevamente.";
-        if (isCuitError) {
-          cuitInput?.classList.add("field-error");
-          cuitInput?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
+            : isWeakPassword
+              ? "La contraseña no cumple los requisitos. Usá al menos 8 caracteres con mayúscula, minúscula y número."
+              : isRateLimit
+                ? "Demasiados intentos. Esperá unos minutos antes de reintentar."
+                : "No pudimos crear la cuenta. Intentá nuevamente.";
         window.dispatchEvent(
           new CustomEvent("show-feedback-modal", {
-            detail: { type: "error", title: isCuitError ? "CUIT inválido" : "Error de registro", message: msg },
+            detail: { type: "error", title: "Error de registro", message: msg },
           }) as any
         );
         return;
@@ -637,17 +662,42 @@ const ROL_OPTIONS = [
           detail: {
             type: "success",
             title: "¡Cuenta creada!",
-            message: `Guardá tu email (${email}) y la contraseña que generaste. Vamos a enviarte instrucciones de acceso muy pronto. Tu prueba dura 30 días.`,
+            message: `Te enviamos un email de confirmación a ${email}. Revisá tu bandeja (y la carpeta de spam) para activar tu prueba de 30 días.`,
           },
         }) as any
       );
+      resetFormToInitial();
+    });
+
+    function resetFormToInitial() {
+      if (!form) return;
       form.reset();
-      if (pwdInput) pwdInput.value = "";
+
+      if (pwdInput) {
+        pwdInput.value = "";
+        pwdInput.type = "password";
+      }
+      eyeShow?.classList.remove("hidden");
+      eyeHide?.classList.add("hidden");
       copyBtn?.setAttribute("disabled", "true");
-      warning?.classList.add("hidden");
+      if (copyLabel) copyLabel.textContent = "Copiar";
+
+      form.querySelectorAll<HTMLSelectElement>(".custom-select-container select").forEach((sel) => {
+        sel.value = "";
+        sel.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+
+      form.querySelectorAll<HTMLInputElement>('input[type="hidden"]').forEach((h) => {
+        h.value = "";
+      });
+
+      const companyInput = form.querySelector<HTMLInputElement>(".company-input");
+      if (companyInput) companyInput.value = "";
+
       clearAllErrors();
       updateChecklist();
-    });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   initTrialForm();

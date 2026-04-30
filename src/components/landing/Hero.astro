@@ -1,4 +1,8 @@
 ---
+import { Image } from "astro:assets";
+import sus1 from "../../assets/system/sus-1.jpeg";
+import sus3 from "../../assets/system/sus-3.jpeg";
+import sus6 from "../../assets/system/sus-6.jpeg";
 ---
 <section class="relative min-h-[90vh] flex items-center pt-20 pb-12 overflow-hidden">
   <!-- Background Decoration -->
@@ -55,42 +59,36 @@
         </div>
 
         <!-- Contenido del Mockup -->
-        <div class="p-8 pb-12 space-y-8">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 bg-[var(--border)]/30 rounded-xl border border-[var(--border)]">
-              <div class="text-[10px] text-mist mb-1">Carga Actual</div>
-              <div class="text-2xl font-bold">12.4 <span class="text-sm font-medium text-mist">MW</span></div>
-            </div>
-            <div class="p-4 bg-[var(--border)]/30 rounded-xl border border-[var(--border)]">
-              <div class="text-[10px] text-mist mb-1">Precio MEM (Spot)</div>
-              <div class="text-2xl font-bold text-forest">64.2 <span class="text-sm font-medium text-mist">USD</span></div>
-            </div>
-          </div>
-
-          <div class="flex flex-col items-center justify-center py-6">
-            <div class="relative w-36 h-36">
-              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="transparent" class="text-mist/10"></circle>
-                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="50.24" class="text-forest"></circle>
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-3xl font-bold">80%</span>
-                <span class="text-[10px] text-mist uppercase font-semibold">Renovable</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-4 bg-red-500/5 dark:bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-4">
-            <div class="p-2 bg-red-500/20 rounded-lg shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-red-500">Estás perdiendo plata</div>
-              <div class="text-[10px] text-red-500/80">Exposición proyectada: USD 22.000 este mes</div>
-            </div>
-          </div>
+        <div class="relative w-full aspect-video bg-[var(--background)] overflow-hidden">
+          <Image src={sus3} alt="Resumen de Operación" class="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000 hero-carousel-img" />
+          <Image src={sus1} alt="Exposición Spot" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 hero-carousel-img" />
+          <Image src={sus6} alt="Historia Energética" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 hero-carousel-img" />
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  function initCarousel() {
+    const images = document.querySelectorAll('.hero-carousel-img');
+    if (images.length === 0) return;
+    
+    let currentIndex = 0;
+    // Clear any existing interval if the script runs multiple times
+    if (window.heroCarouselInterval) clearInterval(window.heroCarouselInterval);
+    
+    window.heroCarouselInterval = setInterval(() => {
+      images[currentIndex].classList.remove('opacity-100');
+      images[currentIndex].classList.add('opacity-0');
+      
+      currentIndex = (currentIndex + 1) % images.length;
+      
+      images[currentIndex].classList.remove('opacity-0');
+      images[currentIndex].classList.add('opacity-100');
+    }, 4000);
+  }
+
+  initCarousel();
+  document.addEventListener('astro:page-load', initCarousel);
+</script>

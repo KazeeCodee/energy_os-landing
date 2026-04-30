@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import sus5 from "../../assets/system/sus-5.jpeg";
+import sus7 from "../../assets/system/sus-7.jpeg";
 ---
 <section class="py-24 bg-[var(--surface)] border-y border-[var(--border)]" id="como-funciona">
   <div class="container mx-auto px-6">
@@ -28,18 +31,18 @@
           ))}
         </ul>
       </div>
-      <div class="relative rounded-[2rem] overflow-hidden border border-[var(--border)] bg-[var(--surface)] p-4 shadow-2xl backdrop-blur-sm">
-        <div class="aspect-video bg-[var(--background)] rounded-2xl border border-[var(--border)] flex items-center justify-center overflow-hidden">
-           <div class="flex flex-col items-center gap-4">
-             <div class="w-full flex justify-around gap-4 px-8">
-               <div class="bg-forest/10 p-3 rounded-lg border border-forest/20 text-[10px] text-forest font-bold shadow-sm">CUMPLIMIENTO</div>
-               <div class="bg-forest/10 p-3 rounded-lg border border-forest/20 text-[10px] text-forest font-bold shadow-sm">COSTO REAL</div>
-             </div>
-             <div class="w-1 h-12 bg-gradient-to-b from-forest to-transparent"></div>
-             <div class="bg-[var(--text-main)] p-6 rounded-2xl border border-[var(--border)] shadow-xl">
-               <div class="font-bold text-center text-sm text-[var(--background)]">Decisión clara</div>
-             </div>
-           </div>
+      <div class="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm">
+        <!-- Header del Mockup -->
+        <div class="bg-navy px-6 py-4 flex items-center justify-between border-b border-white/10">
+          <div class="flex gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-forest"></div>
+          </div>
+          <div class="text-[10px] uppercase font-bold tracking-widest text-white/60">Claridad operativa</div>
+        </div>
+        <div class="relative w-full aspect-video bg-[var(--background)] overflow-hidden">
+          <Image src={sus7} alt="Claridad Operativa" class="absolute inset-0 w-full h-full object-cover" />
         </div>
       </div>
     </div>
@@ -56,15 +59,18 @@
           <p class="text-sm italic text-forest font-medium">"Cortamos un 12% de sobrecosto en el primer trimestre. Sin cambiar nada de la operación, solo viendo lo que no veíamos."</p>
         </div>
       </div>
-      <div class="relative rounded-[2rem] overflow-hidden border border-[var(--border)] bg-[var(--surface)] p-4 shadow-2xl backdrop-blur-sm">
-        <div class="aspect-video bg-[var(--background)] rounded-2xl border border-[var(--border)] flex flex-col p-8 gap-4">
-          <div class="h-2 w-1/2 bg-[var(--border)] rounded"></div>
-          <div class="flex-1 flex items-end gap-3 px-4">
-            <div class="w-full bg-[var(--border)] h-20 rounded-t-lg transition-all"></div>
-            <div class="w-full bg-forest h-40 rounded-t-lg shadow-[0_0_20px_rgba(22,128,86,0.2)] transition-all"></div>
-            <div class="w-full bg-[var(--border)] h-24 rounded-t-lg transition-all"></div>
-            <div class="w-full bg-[var(--border)] h-16 rounded-t-lg transition-all"></div>
+      <div class="relative bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm">
+        <!-- Header del Mockup -->
+        <div class="bg-navy px-6 py-4 flex items-center justify-between border-b border-white/10">
+          <div class="flex gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-forest"></div>
           </div>
+          <div class="text-[10px] uppercase font-bold tracking-widest text-white/60">Decisión real</div>
+        </div>
+        <div class="relative w-full aspect-video bg-[var(--background)] overflow-hidden">
+          <Image src={sus5} alt="Decisión Real" class="absolute inset-0 w-full h-full object-cover" />
         </div>
       </div>
     </div>

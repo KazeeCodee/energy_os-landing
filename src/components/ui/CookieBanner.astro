@@ -1,0 +1,81 @@
+---
+// CookieBanner.astro
+---
+
+<div 
+  id="cookie-banner" 
+  class="fixed bottom-6 right-6 z-[100] max-w-sm w-[calc(100%-3rem)] translate-y-8 opacity-0 pointer-events-none transition-all duration-500 ease-out"
+>
+  <div class="bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-2xl p-6 backdrop-blur-xl">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="bg-forest/10 p-2.5 rounded-full text-forest mt-0.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+          <path d="M8.5 8.5v.01"/>
+          <path d="M16 15.5v.01"/>
+          <path d="M12 12v.01"/>
+          <path d="M11 17v.01"/>
+          <path d="M7 14v.01"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="font-bold text-[var(--text-main)] mb-1">Privacidad y Cookies</h3>
+        <p class="text-sm text-mist leading-relaxed">
+          Utilizamos cookies esenciales para mejorar tu experiencia en nuestra plataforma. Al continuar navegando, aceptas nuestra 
+          <a href="/cookies" class="text-forest hover:text-forest-dark underline decoration-forest/30 underline-offset-2 transition-colors">política de cookies</a>.
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+      <button 
+        id="accept-cookies" 
+        class="flex-1 bg-forest hover:bg-forest-dark text-white font-medium py-2 px-4 rounded-xl transition-colors shadow-lg shadow-forest/20 text-sm"
+      >
+        Aceptar todas
+      </button>
+      <button 
+        id="reject-cookies" 
+        class="flex-1 bg-[var(--surface-hover)] hover:bg-[var(--border)] text-[var(--text-main)] font-medium py-2 px-4 rounded-xl transition-colors border border-[var(--border)] text-sm"
+      >
+        Rechazar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('accept-cookies');
+    const rejectBtn = document.getElementById('reject-cookies');
+
+    if (!cookieBanner || !acceptBtn || !rejectBtn) return;
+
+    // Verificar si el usuario ya aceptó/rechazó
+    const hasConsent = localStorage.getItem('energyos-cookies-accepted');
+
+    if (!hasConsent) {
+      // Mostrar el banner si no hay consentimiento previo
+      // Pequeño delay para que la animación se note después de que cargue la página
+      setTimeout(() => {
+        cookieBanner.classList.remove('translate-y-8', 'opacity-0', 'pointer-events-none');
+      }, 1000);
+    }
+
+    const hideBanner = () => {
+      cookieBanner.classList.add('translate-y-8', 'opacity-0', 'pointer-events-none');
+    };
+
+    acceptBtn.addEventListener('click', () => {
+      localStorage.setItem('energyos-cookies-accepted', 'true');
+      hideBanner();
+      // Aquí se podrían inicializar scripts de analítica (Google Analytics, etc.)
+    });
+
+    rejectBtn.addEventListener('click', () => {
+      localStorage.setItem('energyos-cookies-accepted', 'false');
+      hideBanner();
+      // Aquí el sitio solo debería funcionar con cookies estrictamente necesarias
+    });
+  });
+</script>

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import FeedbackModal from '../components/landing/FeedbackModal.astro';
+import CookieBanner from '../components/ui/CookieBanner.astro';
 
 interface Props {
 	title: string;
@@ -47,6 +48,7 @@ const { title, description = "EnergyOS — La única forma de no operar a ciegas
 	<body class="selection:bg-forest selection:text-white">
 		<slot />
     <FeedbackModal />
+    <CookieBanner />
     
     <script>
       function initReveal() {
