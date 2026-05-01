@@ -7,9 +7,7 @@ import logoFull from "../assets/logo.png";
 
 const TIPO_EMPRESA_OPTIONS = [
   { value: "gran_usuario", label: "Gran Usuario en MEM (>300 kW)" },
-  { value: "gudi", label: "GUDI (compra a distribuidora)" },
-  { value: "comercializador", label: "Comercializador MATER" },
-  { value: "otro", label: "Otro" },
+  { value: "gudi", label: "GUDI / Gran demanda en distribuidor" },
 ];
 
 const INDUSTRIA_OPTIONS = [
@@ -462,20 +460,16 @@ const ROL_OPTIONS = [
       "Gran Usuario Mayor (GUMA)": "gran_usuario",
       "Gran Usuario Menor (GUME)": "gran_usuario",
       "Gran Usuario Particular (GUPA)": "gran_usuario",
-      "Autogenerador": "gran_usuario",
-      "Cogenerador": "gran_usuario",
       "GRAN DEMANDA EN DISTRIBUIDOR": "gudi",
-      "Distribuidor": "gudi",
-      "DISTRIBUIDOR MENOR (DIME)": "gudi",
-      "Comercializador de Demanda": "comercializador",
-      "Comercializador de Generacion": "comercializador",
+      "PAFTT No Agente - Res SE123/95": "gudi",
     };
 
     function applyTipoEmpresa(tipoEmpresa: string) {
       const hidden = form?.querySelector<HTMLSelectElement>('select[name="tipo_empresa"]');
       if (!hidden) return;
       const valid = Array.from(hidden.options).some((o) => o.value === tipoEmpresa);
-      hidden.value = valid ? tipoEmpresa : "otro";
+      // Si tipo no mapea (raro), dejar vacío para que user elija manual.
+      hidden.value = valid ? tipoEmpresa : "";
       hidden.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
@@ -485,7 +479,7 @@ const ROL_OPTIONS = [
         tipo_agente?: string | null;
       } | null;
       const tipoAgente = detail?.tipo_agente ?? "";
-      const mapped = TIPO_AGENTE_TO_TIPO_EMPRESA[tipoAgente] ?? "otro";
+      const mapped = TIPO_AGENTE_TO_TIPO_EMPRESA[tipoAgente] ?? "";
       applyTipoEmpresa(mapped);
     });
 
