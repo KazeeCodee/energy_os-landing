@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "serve dist -l tcp://0.0.0.0:${PORT:-4321} -s",
+    "start": "serve dist -l tcp://0.0.0.0:${PORT:-4321}",
     "astro": "astro"
   },
   "dependencies": {
